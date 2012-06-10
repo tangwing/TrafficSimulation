@@ -247,3 +247,49 @@
 1335689585 source:d:\polytech\codeblocks\trafficsimulation\main.cpp
 	"TS.h"
 
+1339316861 source:d:\git\trafficsimulation\config.c
+	"config.h"
+
+1339319378 d:\git\trafficsimulation\config.h
+
+1339323255 source:d:\git\trafficsimulation\main.cpp
+	"view.h"
+
+1339315411 d:\git\trafficsimulation\ts.h
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"view.h"
+	"config.h"
+
+1339319442 d:\git\trafficsimulation\car.h
+	"config.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1339323507 d:\git\trafficsimulation\view.h
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	"car.h"
+
+1339316314 source:d:\git\trafficsimulation\view.c
+	"view.h"
+
+1339314813 source:d:\git\trafficsimulation\car.c
+	"car.h"
+
+1339316861 source:d:\git\trafficsimulation\config.cpp
+	"config.h"
+
+1339319027 source:d:\git\trafficsimulation\view.cpp
+	"view.h"
+
+1339321542 source:d:\git\trafficsimulation\car.cpp
+	"car.h"
+
+1339323284 d:\git\trafficsimulation\shishi.h
+

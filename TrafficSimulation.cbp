@@ -43,8 +43,13 @@
 			<Add directory="C:\MinGW\lib" />
 		</Linker>
 		<Unit filename="TS.h" />
-		<Unit filename="idm.cpp" />
+		<Unit filename="car.cpp" />
+		<Unit filename="car.h" />
+		<Unit filename="config.cpp" />
+		<Unit filename="config.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="view.cpp" />
+		<Unit filename="view.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
