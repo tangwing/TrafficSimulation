@@ -9,7 +9,8 @@ void initConfiguration(Config* c)
     c->roadWidth=40;
     c->carWidth=30;
     c->carLength=30;
-    c->trafficLightPosition=c->windowWidth/2;
+    c->trafficLightPosition1=0.3;
+    c->trafficLightPosition2=0.6;
 
     /**Parameters of the traffic*/
     /** (Virtual length(m) of the road)/windowWidth(pixel). */
@@ -20,6 +21,7 @@ void initConfiguration(Config* c)
     c->s0=2/c->roadVirtualLengthFactor;/** m -> pixel */
     c->a=10;
     c->b=3;
+    c->moyen=3000;
 }
 
 

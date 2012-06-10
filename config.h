@@ -12,8 +12,9 @@ typedef struct
     float carLength;
     /**The total number of cars*/
     int n;
-    /**Traffic light position*/
-    float trafficLightPosition;
+    /**Traffic light position, percentage to the window size*/
+    float trafficLightPosition1;
+    float trafficLightPosition2;
     /**Desired velocity (km/h)*/
     float v0;
     /**Time headway*/
@@ -26,6 +27,8 @@ typedef struct
     float b;
     /**L'écart moyen du temps d'arrivée.[1,5] est préférable*/
     float beta;
+    /** Le moyen temps d'arrivée en milliseconde*/
+    float moyen;
 } Config;
 
 /**This should be replaced by reading config file*/

@@ -1,29 +1,26 @@
 #include "view.h"
-//#include "config.h"
-//#include "car.h"
-//#include "shishi.h"
 
-
-//extern Config config;
-//extern Car *cars;
-//*The last update time
-//extern long lastUpdateTime;
-//extern int isTrafficLightRed=0;
 Config config;
-Car *cars=NULL;
+CarList* cars=NULL;
 /**The last update time*/
 long lastUpdateTime=0;
-int isTrafficLightRed=0;
 
+int isTrafficLightRed=0;
+//long intervalBeforeNextCar=3;
 int main(int argc, char** argv)
 {
+    srand(time(NULL));
     initConfiguration(&config);
-    cars=(Car*)malloc(sizeof(Car)*config.n);
-    initCars(cars,config);
+    config.windowWidth=glutGet(GLUT_SCREEN_WIDTH)-10;
+    config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
 
+    //init the carlist with the biggest possible size
+    initCarlist(&cars,config.windowWidth/config.carLength,config);
+    //printf("%d",cars->size);
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB);
-    glutInitWindowSize( config.windowWidth,config.windowHeight);
+    glutInitWindowSize(config.windowWidth,config.windowHeight);
+    //glutInitWindowSize(500,500);
     glutInitWindowPosition(0,0);
     glutCreateWindow("Traffic Simulation");
 
@@ -33,10 +30,8 @@ int main(int argc, char** argv)
     glutDisplayFunc(myDisplay);
     glutMouseFunc(mouse);
 
-    glutTimerFunc(3000,timer_func,5);
-    glutTimerFunc(10000,timer_func,5);
+//    glutTimerFunc(3000,timer_func,5);
+//    glutTimerFunc(10000,timer_func,5);
 
-    lastUpdateTime=clock();
     glutMainLoop();
-
 }

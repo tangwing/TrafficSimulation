@@ -13,7 +13,7 @@
 //#define N 40
 //
 extern Config config;
-extern Car *cars;
+extern CarList *cars;
 /**The last update time*/
 extern long lastUpdateTime;
 extern int isTrafficLightRed;

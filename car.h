@@ -17,5 +17,20 @@ typedef struct
     long lastUpdateTime;
 } Car;
 
-void initCars(Car* cars,Config c);
+typedef struct
+{
+    Car* carArray;
+    int size;
+    int firstCar;//first car in the screen
+    int lastCar;
+}CarList;
+
+//Init the carlist according to the given count, all cars are set at the beginning line
+void initCarlist(CarList**cl, int size,Config c);
+//When a new car enter the screen
+void carIn(CarList*cl);
+//When a car goes out of the screen
+void carOut(CarList*cl);
+/**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
+float getInterval(float moyen);
 #endif

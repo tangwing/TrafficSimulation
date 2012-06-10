@@ -1,0 +1,1 @@
+This is the project of the course Algorithme and C programming language. We use OpenGL to simulate city trafic, according to the "Intelligent Driver Model".

@@ -1,24 +1,28 @@
 #include "view.h"
-//#include "TS.h"
-//static extern  Config config;
-
+long intervalBeforeNextCar;
+long lastCarEnterTime;
 void myDisplay(void)
 {
     int i;
-    //float x[40];
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
-    //Draw car s
+    //Draw cars
     glColor3f(1.0,1.0,1.0);
 
-    for(i=0; i<config.n; i++)
+    if(cars->firstCar!=-1)
     {
-        if(cars[i].x>=0 && cars[i].x-config.carLength<=config.windowWidth)
+        for(i=cars->firstCar; i!=(cars->lastCar+1)%cars->size; i=(i+1)%cars->size)
         {
-            glRectf(-config.windowWidth/2+cars[i].x,-config.carWidth/2,
-                    -config.windowWidth/2+cars[i].x-config.carLength,config.carWidth/2);
+            if(cars->carArray[i].x-config.carLength<=config.windowWidth)
+            {
+                glRectf(-config.windowWidth/2+cars->carArray[i].x,-config.carWidth/2,
+                        -config.windowWidth/2+cars->carArray[i].x-config.carLength,config.carWidth/2);
+            }printf("%d\t",i);
         }
+        printf("\n");
+        lastUpdateTime=clock();
     }
+
     //draw the road (by two lines)
     glLineWidth(3.0);
     glBegin(GL_LINES);
@@ -30,6 +34,7 @@ void myDisplay(void)
     //draw the two traffic lights
     if(isTrafficLightRed==1)
     {
+        //red light
         glColor3f(1,0,0);
     }
     else
@@ -37,11 +42,12 @@ void myDisplay(void)
         glColor3f(0,1,0);
     }
     glBegin(GL_LINE_LOOP);
-    drawCircle(config.trafficLightPosition-config.windowWidth/2,config.roadWidth,10,1);
+    drawCircle(config.trafficLightPosition1*config.windowWidth-config.windowWidth/2,config.roadWidth,10,1);
     glEnd();
 
     glPopMatrix();
     glutSwapBuffers();
+    //lastUpdateTime=clock();
 }
 
 /** Here update the position of cars*/
@@ -51,72 +57,80 @@ void refresh(void)
     float deltaT,deltaV,sStar,deltaS,tmp,a1,a2;
     long currentTime=clock();
 
-    if(cars[config.n-1].x-config.carLength>config.windowWidth)
-    {
-        glutIdleFunc(NULL);
+    if(cars->firstCar==-1)
         return;
-    }
+
 
     deltaT=(currentTime-lastUpdateTime)/1000.0;
 
     /**Update positions and velocities
     (based on the acceleration of the last time)*/
-    for(i=config.n-1; i>=0; i--)
+    for(i=cars->firstCar; i!=(cars->lastCar+1)%cars->size; i=(i+1)%cars->size)
     {
-        tmp=(cars[i].v+cars[i].a*deltaT/2)*deltaT;
+        tmp=(cars->carArray[i].v+cars->carArray[i].a*deltaT/2)*deltaT;
         if(tmp>0)
-            cars[i].x+=tmp;
-        cars[i].v+= cars[i].a*deltaT;
-        if(cars[i].v<0)
-            cars[i].v=0;
+            cars->carArray[i].x+=tmp;
+        cars->carArray[i].v+= cars->carArray[i].a*deltaT;
+        if(cars->carArray[i].v<0)
+            cars->carArray[i].v=0;
+        if(cars->carArray[i].x-config.carLength>config.windowWidth)
+            carOut(cars);
     }
 
     /**Update acceleration*/
-    for(i=config.n-1; i>0; i--)
+    for(i=cars->lastCar; i!=(cars->firstCar)%cars->size; i=(i-1)%cars->size)
     {
-        deltaS=cars[i-1].x-cars[i].x-config.carLength;
-        deltaV=cars[i].v-cars[i-1].v;
-        sStar=config.s0+cars[i].v*config.T+(cars[i].v*deltaV/(2*sqrt(config.a*config.b)));
-        a1= config.a*(1-pow(cars[i].v/config.v0,4)-pow(sStar/deltaS,2));
+        deltaS=cars->carArray[(i-1)%cars->size].x-cars->carArray[i].x-config.carLength;
+        deltaV=cars->carArray[i].v-cars->carArray[(i-1)%cars->size].v;
+        sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
+        a1= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
         /**Juge whether the traffic light is valide for current car.
          The driver take the red light as the car in front.*/
-        if(isTrafficLightRed==1 && cars[i].x<config.trafficLightPosition)
+        if(isTrafficLightRed==1 && cars->carArray[i].x<config.trafficLightPosition1*config.windowWidth)
         {
-            deltaS=config.trafficLightPosition-cars[i].x;
-            deltaV=cars[i].v;
-            sStar=config.s0+cars[i].v*config.T+(cars[i].v*deltaV/(2*sqrt(config.a*config.b)));
-            a2= config.a*(1-pow(cars[i].v/config.v0,4)-pow(sStar/deltaS,2));
+            deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[i].x;
+            deltaV=cars->carArray[i].v;
+            sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
+            a2= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
 
             if(a1>a2)
-                cars[i].a=a2;
+                cars->carArray[i].a=a2;
             else
-                cars[i].a=a1;
+                cars->carArray[i].a=a1;
         }
         else
         {
-            cars[i].a=a1;
+            cars->carArray[i].a=a1;
         }
 
     }
-    //i==0
-    a1= config.a*(1-pow(cars[0].v/config.v0,4));
-    if(isTrafficLightRed==1 && cars[0].x<config.trafficLightPosition)
+    //i==cars->firstCar
+    i=cars->firstCar;
+    a1= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4));
+    if(isTrafficLightRed==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition1*config.windowWidth)
     {
-        deltaS=config.trafficLightPosition-cars[0].x;
-        deltaV=cars[0].v;
-        sStar=config.s0+cars[0].v*config.T+(cars[0].v*deltaV/(2*sqrt(config.a*config.b)));
-        a2= config.a*(1-pow(cars[0].v/config.v0,4)-pow(sStar/deltaS,2));
+        deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[cars->firstCar].x;
+        deltaV=cars->carArray[cars->firstCar].v;
+        sStar=config.s0+cars->carArray[cars->firstCar].v*config.T+(cars->carArray[cars->firstCar].v*deltaV/(2*sqrt(config.a*config.b)));
+        a2= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4)-pow(sStar/deltaS,2));
         if(a1>a2)
-            cars[0].a=a2;
+            cars->carArray[cars->firstCar].a=a2;
         else
-            cars[0].a=a1;
+            cars->carArray[cars->firstCar].a=a1;
     }
     else
     {
-        cars[0].a=a1;
+        cars->carArray[cars->firstCar].a=a1;
     }
 
-    lastUpdateTime=currentTime;
+    //Add a new car if necessary
+    if(currentTime-lastCarEnterTime>=intervalBeforeNextCar)
+    {
+        carIn(cars);
+        lastCarEnterTime=clock();
+        intervalBeforeNextCar=getInterval(config.moyen);
+    }
+
     glutPostRedisplay();
 }
 
@@ -126,8 +140,6 @@ void myReshape(GLsizei w, GLsizei h)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(-500,500,-250,250,-1,1);
-
-
 //    if(w<=h)
 //        gluOrtho2D(-1.0,1.5,-1.5,1.5*(GLfloat)h/(GLfloat)w);
 //    else
@@ -144,7 +156,13 @@ void mouse(int button, int state, int x, int y)
     case GLUT_LEFT_BUTTON:
         if(state==GLUT_UP)
         {
-            //Sleep(1000);
+            //For the first time
+            if(cars->firstCar==-1)
+            {
+                carIn(cars);
+                lastCarEnterTime=clock();
+                intervalBeforeNextCar=getInterval(config.moyen);
+            }
             glutIdleFunc(refresh);
         }
 
@@ -152,7 +170,7 @@ void mouse(int button, int state, int x, int y)
     case GLUT_MIDDLE_BUTTON:
         if(state==GLUT_UP)
         {
-            printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
+            //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
         }
 
         break;

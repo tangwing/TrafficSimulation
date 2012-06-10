@@ -42,7 +42,6 @@
 			<Add library="gdi32" />
 			<Add directory="C:\MinGW\lib" />
 		</Linker>
-		<Unit filename="TS.h" />
 		<Unit filename="car.cpp" />
 		<Unit filename="car.h" />
 		<Unit filename="config.cpp" />

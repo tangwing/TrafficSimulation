@@ -1,24 +1,63 @@
 #include "car.h"
 
-
-void initCars(Car* carlist,Config c)
+void initCarlist(CarList**cl, int size,Config c)
 {
     int i;
     float x=0;
-    for(i=0; i<c.n; i++)
+
+    if(*cl==NULL)
+        *cl=(CarList*)malloc(sizeof(CarList));
+    (*cl)->carArray=(Car*)malloc(sizeof(Car)*size);
+    (*cl)->firstCar=-1;
+    (*cl)->lastCar=-1;
+    (*cl)->size=size;
+
+    for(i=0; i<size; i++)
     {
-        carlist[i].x=x;
-        carlist[i].v=10;
-        carlist[i].a=c.a;
-        x=x-c.carLength-2*c.s0;
-        carlist[i].lastUpdateTime=clock();
+        (*cl)->carArray[i].x=x;
+        (*cl)->carArray[i].v=c.v0;
+        (*cl)->carArray[i].a=c.a;
+        //x=x-c.carLength-2*c.s0;
+        //carlist[i].lastUpdateTime=clock();
     }
 }
+
+//int addIndex(CarList*cl,int i)
+//{
+//    return (i+1)%cl->size;
+//}
+//
+//int Index(CarList*cl,int i)
+//{
+//    return (i+1)%cl->size;
+//}
+void carIn(CarList*cl)
+{
+    if(cl->firstCar=-1)
+    {
+        cl->firstCar=0;
+        cl->lastCar=0;
+        return;
+    }
+    else
+        cl->lastCar=(cl->lastCar+1)%cl->size;
+}
+
+void carOut(CarList*cl)
+{
+    if(cl->firstCar=cl->lastCar)
+    {
+        cl->firstCar=-1;
+        cl->lastCar=-1;
+    }
+    else
+        cl->firstCar=(cl->firstCar+1)%cl->size;
+}
+
 
 /**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
 float getInterval(float moyen)
 {
-    srand(time(NULL));
     return -moyen*(log(rand()%1001*0.001f));
 }
 
