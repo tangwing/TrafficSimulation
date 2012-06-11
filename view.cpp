@@ -3,33 +3,17 @@ long intervalBeforeNextCar;
 long lastCarEnterTime;
 void myDisplay(void)
 {
-    int i;
+    int i,index,n,first;
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
-    //Draw cars
-    glColor3f(1.0,1.0,1.0);
-
-    if(cars->firstCar!=-1)
-    {
-        for(i=cars->firstCar; i!=(cars->lastCar+1)%cars->size; i=(i+1)%cars->size)
-        {
-            if(cars->carArray[i].x-config.carLength<=config.windowWidth)
-            {
-                glRectf(-config.windowWidth/2+cars->carArray[i].x,-config.carWidth/2,
-                        -config.windowWidth/2+cars->carArray[i].x-config.carLength,config.carWidth/2);
-            }printf("%d\t",i);
-        }
-        printf("\n");
-        lastUpdateTime=clock();
-    }
 
     //draw the road (by two lines)
     glLineWidth(3.0);
     glBegin(GL_LINES);
-    glVertex2f( -config.windowWidth/2, -config.roadWidth/2);
-    glVertex2f( config.windowWidth/2, -config.roadWidth/2);
-    glVertex2f( -config.windowWidth/2, config.roadWidth/2);
-    glVertex2f( config.windowWidth/2, config.roadWidth/2);
+    glVertex2f( -config.windowWidth/2.0, -config.roadWidth/2.0);
+    glVertex2f( config.windowWidth/2.0, -config.roadWidth/2.0);
+    glVertex2f( -config.windowWidth/2.0, config.roadWidth/2.0);
+    glVertex2f( config.windowWidth/2.0, config.roadWidth/2.0);
     glEnd();
     //draw the two traffic lights
     if(isTrafficLightRed==1)
@@ -42,8 +26,41 @@ void myDisplay(void)
         glColor3f(0,1,0);
     }
     glBegin(GL_LINE_LOOP);
-    drawCircle(config.trafficLightPosition1*config.windowWidth-config.windowWidth/2,config.roadWidth,10,1);
+    drawCircle(config.trafficLightPosition1*config.windowWidth-config.windowWidth/2.0,config.roadWidth,10,1);
+    drawCircle(config.trafficLightPosition2*config.windowWidth-config.windowWidth/2.0,config.roadWidth,10,1);
     glEnd();
+    //Draw cars
+    glColor3f(1.0,1.0,1.0);
+    if(cars->count>0)
+    {
+        printf("count:%d;",cars->count);
+        first=cars->firstCar;
+        n=cars->count;//Function carOut will change the value of count
+        for(index=0; index<n; index++)
+        {
+            i=(first+index)%cars->size;
+            if(cars->carArray[i].x-config.carLength<=config.windowWidth)
+            {
+                glRectf(-config.windowWidth/2.0+cars->carArray[i].x-config.carLength,
+                        config.carWidth/2.0,
+                        -config.windowWidth/2.0+cars->carArray[i].x,
+                        -config.carWidth/2.0);
+                //printf("%d-point:%f\t",i,-config.windowWidth/2.0+cars->carArray[i].x);
+                printf("%d:%f;%f;%f;%f;%f;\n",i,cars->carArray[i].x,
+                        -config.windowWidth/2.0+cars->carArray[i].x-config.carLength,
+                        config.carWidth/2.0,
+                        -config.windowWidth/2.0+cars->carArray[i].x,
+                        -config.carWidth/2.0);
+            }
+            else
+            {
+                carOut(cars);
+            }
+
+        }
+        printf("\n");
+
+    }
 
     glPopMatrix();
     glutSwapBuffers();
@@ -53,20 +70,21 @@ void myDisplay(void)
 /** Here update the position of cars*/
 void refresh(void)
 {
-    int i;
+    int i,index,n,first;
     float deltaT,deltaV,sStar,deltaS,tmp,a1,a2;
     long currentTime=clock();
 
     if(cars->firstCar==-1)
         return;
-
-
     deltaT=(currentTime-lastUpdateTime)/1000.0;
 
     /**Update positions and velocities
     (based on the acceleration of the last time)*/
-    for(i=cars->firstCar; i!=(cars->lastCar+1)%cars->size; i=(i+1)%cars->size)
+    first=cars->firstCar;
+    n=cars->count;
+    for(index=0; index<n; index++)
     {
+        i=(first+index)%cars->size;
         tmp=(cars->carArray[i].v+cars->carArray[i].a*deltaT/2)*deltaT;
         if(tmp>0)
             cars->carArray[i].x+=tmp;
@@ -74,13 +92,21 @@ void refresh(void)
         if(cars->carArray[i].v<0)
             cars->carArray[i].v=0;
         if(cars->carArray[i].x-config.carLength>config.windowWidth)
+        {
             carOut(cars);
+        }
     }
 
     /**Update acceleration*/
-    for(i=cars->lastCar; i!=(cars->firstCar)%cars->size; i=(i-1)%cars->size)
+    n=cars->count;
+    for(index=0; index<n; index++)
     {
+
+        i=(cars->lastCar-index)%cars->size;
+        if(i==cars->firstCar)break;
+
         deltaS=cars->carArray[(i-1)%cars->size].x-cars->carArray[i].x-config.carLength;
+        //printf("%d->%d__Deltas=%f\n",i,(i-1)%cars->size,deltaS);
         deltaV=cars->carArray[i].v-cars->carArray[(i-1)%cars->size].v;
         sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
         a1= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
@@ -105,32 +131,40 @@ void refresh(void)
 
     }
     //i==cars->firstCar
-    i=cars->firstCar;
-    a1= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4));
-    if(isTrafficLightRed==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition1*config.windowWidth)
+    if(i==cars->firstCar)
     {
-        deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[cars->firstCar].x;
-        deltaV=cars->carArray[cars->firstCar].v;
-        sStar=config.s0+cars->carArray[cars->firstCar].v*config.T+(cars->carArray[cars->firstCar].v*deltaV/(2*sqrt(config.a*config.b)));
-        a2= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4)-pow(sStar/deltaS,2));
-        if(a1>a2)
-            cars->carArray[cars->firstCar].a=a2;
+        a1= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4));
+        if(isTrafficLightRed==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition1*config.windowWidth)
+        {
+            deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[cars->firstCar].x;
+            deltaV=cars->carArray[cars->firstCar].v;
+            sStar=config.s0+cars->carArray[cars->firstCar].v*config.T+(cars->carArray[cars->firstCar].v*deltaV/(2*sqrt(config.a*config.b)));
+            a2= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4)-pow(sStar/deltaS,2));
+            if(a1>a2)
+                cars->carArray[cars->firstCar].a=a2;
+            else
+                cars->carArray[cars->firstCar].a=a1;
+        }
         else
+        {
             cars->carArray[cars->firstCar].a=a1;
-    }
-    else
-    {
-        cars->carArray[cars->firstCar].a=a1;
+        }
     }
 
-    //Add a new car if necessary
-    if(currentTime-lastCarEnterTime>=intervalBeforeNextCar)
+
+    printf("currentTime=%ld;lastCarEnterTime=%ld;interval=%ld;carindex=%d;x=%f;\n",currentTime,lastCarEnterTime,intervalBeforeNextCar,cars->lastCar,cars->carArray[cars->lastCar].x);
+    //Add a new car if necessary (!Only when there is place!)
+    if(currentTime-lastCarEnterTime>=intervalBeforeNextCar&&
+       cars->count>0&&
+       (cars->carArray[cars->lastCar].x-config.carLength-config.s0>0))
     {
         carIn(cars);
+        printf("carindex=%d;x=%f;\n",cars->lastCar,cars->carArray[cars->lastCar].x);
         lastCarEnterTime=clock();
         intervalBeforeNextCar=getInterval(config.moyen);
-    }
 
+    }
+    lastUpdateTime=currentTime;
     glutPostRedisplay();
 }
 
@@ -139,7 +173,7 @@ void myReshape(GLsizei w, GLsizei h)
     glViewport(0,0,w,h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-500,500,-250,250,-1,1);
+    glOrtho(-config.windowWidth/2.0,config.windowWidth/2.0,-config.windowHeight/2.0,config.windowHeight/2.0,-1,1);
 //    if(w<=h)
 //        gluOrtho2D(-1.0,1.5,-1.5,1.5*(GLfloat)h/(GLfloat)w);
 //    else
@@ -157,10 +191,11 @@ void mouse(int button, int state, int x, int y)
         if(state==GLUT_UP)
         {
             //For the first time
-            if(cars->firstCar==-1)
+            if(cars->count==0)
             {
                 carIn(cars);
                 lastCarEnterTime=clock();
+                lastUpdateTime=lastCarEnterTime;
                 intervalBeforeNextCar=getInterval(config.moyen);
             }
             glutIdleFunc(refresh);
@@ -170,6 +205,7 @@ void mouse(int button, int state, int x, int y)
     case GLUT_MIDDLE_BUTTON:
         if(state==GLUT_UP)
         {
+            glutIdleFunc(NULL);
             //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
         }
 

@@ -20,6 +20,7 @@ typedef struct
 typedef struct
 {
     Car* carArray;
+    int count;
     int size;
     int firstCar;//first car in the screen
     int lastCar;
@@ -32,5 +33,5 @@ void carIn(CarList*cl);
 //When a car goes out of the screen
 void carOut(CarList*cl);
 /**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
-float getInterval(float moyen);
+long getInterval(long moyenMillisecond);
 #endif

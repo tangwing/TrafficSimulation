@@ -11,9 +11,9 @@ int main(int argc, char** argv)
 {
     srand(time(NULL));
     initConfiguration(&config);
-    config.windowWidth=glutGet(GLUT_SCREEN_WIDTH)-10;
-    config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
-
+    //config.windowWidth=glutGet(GLUT_SCREEN_WIDTH)-10;
+    //config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
+    printf("width=%d;height=%d\n",glutGet(GLUT_SCREEN_WIDTH),glutGet(GLUT_SCREEN_HEIGHT));
     //init the carlist with the biggest possible size
     initCarlist(&cars,config.windowWidth/config.carLength,config);
     //printf("%d",cars->size);
@@ -32,6 +32,6 @@ int main(int argc, char** argv)
 
 //    glutTimerFunc(3000,timer_func,5);
 //    glutTimerFunc(10000,timer_func,5);
-
+    //glutFullScreen();
     glutMainLoop();
 }
