@@ -1,0 +1,20 @@
+windowWidth=1000
+windowHeight=500
+roadWidth=40
+carWidth=30
+carLength=15
+trafficLightPosition1=0.3
+trafficLightPosition2=0.6
+
+#Parameters of the traffic
+#(Virtual length(m) of the road)/windowWidth(pixel).
+roadVirtualLengthFactor=0.2
+
+#c->n=50
+#c->v0=220/3.6/c->roadVirtualLengthFactor /** m/s -> pixel/s */
+v0=500
+T=1.5
+s0=2/c->roadVirtualLengthFactor/** m -> pixel */
+a=50
+b=6
+moyen=1000

@@ -1,6 +1,14 @@
-//#pragma once
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+
 #ifndef CONFIGH
 #define CONFIGH
+#define CONFIG_FILEPATH "C:\\TS_setting.ini"
+#define BUFFER_SIZE 5000
+#define LINE_MAXLENGTH 1000
 typedef struct
 {
     int windowWidth;
@@ -11,7 +19,7 @@ typedef struct
     float carWidth;
     float carLength;
     /**The total number of cars*/
-    int n;
+    //int n;
     /**Traffic light position, percentage to the window size*/
     float trafficLightPosition1;
     float trafficLightPosition2;
@@ -33,4 +41,5 @@ typedef struct
 
 /**This should be replaced by reading config file*/
 void initConfiguration(Config* c);
+void initConfigurationFromFile(Config* c);
 #endif

@@ -9,8 +9,15 @@ int isTrafficLightRed=0;
 //long intervalBeforeNextCar=3;
 int main(int argc, char** argv)
 {
+//    FILE *f=fopen("D:\\Git\\TrafficSimulation\\test.txt","w+");
+//    char s[20];
+//    //fputs("llll",f);
+//    //fflush(f);
+//    long d=(long)fgets(s,20,f);
+//    printf("%ld\n",d);
+//    /*
     srand(time(NULL));
-    initConfiguration(&config);
+    initConfigurationFromFile(&config);
     //config.windowWidth=glutGet(GLUT_SCREEN_WIDTH)-10;
     //config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
     printf("width=%d;height=%d\n",glutGet(GLUT_SCREEN_WIDTH),glutGet(GLUT_SCREEN_HEIGHT));
@@ -34,4 +41,5 @@ int main(int argc, char** argv)
 //    glutTimerFunc(10000,timer_func,5);
     //glutFullScreen();
     glutMainLoop();
+    //*/
 }

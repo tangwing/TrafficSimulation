@@ -1,8 +1,4 @@
 #include "config.h"
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #ifndef CARH
 #define CARH
 typedef struct

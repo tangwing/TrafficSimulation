@@ -250,9 +250,14 @@
 1339316861 source:d:\git\trafficsimulation\config.c
 	"config.h"
 
-1339368706 d:\git\trafficsimulation\config.h
+1339593795 d:\git\trafficsimulation\config.h
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
 
-1339430095 source:d:\git\trafficsimulation\main.cpp
+1339593217 source:d:\git\trafficsimulation\main.cpp
 	"view.h"
 
 1339315411 d:\git\trafficsimulation\ts.h
@@ -263,12 +268,8 @@
 	"view.h"
 	"config.h"
 
-1339401558 d:\git\trafficsimulation\car.h
+1339576849 d:\git\trafficsimulation\car.h
 	"config.h"
-	<math.h>
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
 
 1339367447 d:\git\trafficsimulation\view.h
 	<windows.h>
@@ -282,10 +283,10 @@
 1339314813 source:d:\git\trafficsimulation\car.c
 	"car.h"
 
-1339430460 source:d:\git\trafficsimulation\config.cpp
+1339594208 source:d:\git\trafficsimulation\config.cpp
 	"config.h"
 
-1339430438 source:d:\git\trafficsimulation\view.cpp
+1339595157 source:d:\git\trafficsimulation\view.cpp
 	"view.h"
 
 1339405038 source:d:\git\trafficsimulation\car.cpp

@@ -159,12 +159,13 @@ void refresh(void)
        (cars->carArray[cars->lastCar].x-config.carLength-config.s0>0))
     {
         carIn(cars);
-        printf("carindex=%d;x=%f;\n",cars->lastCar,cars->carArray[cars->lastCar].x);
+        printf("first=%d;carindex=%d;x=%f;\n",cars->firstCar,cars->lastCar,cars->carArray[cars->lastCar].x);
         lastCarEnterTime=clock();
         intervalBeforeNextCar=getInterval(config.moyen);
 
     }
     lastUpdateTime=currentTime;
+
     glutPostRedisplay();
 }
 
@@ -205,7 +206,8 @@ void mouse(int button, int state, int x, int y)
     case GLUT_MIDDLE_BUTTON:
         if(state==GLUT_UP)
         {
-            glutIdleFunc(NULL);
+            initConfigurationFromFile(&config);
+            //glutIdleFunc(NULL);
             //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
         }
 

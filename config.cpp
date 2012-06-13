@@ -25,4 +25,58 @@ void initConfiguration(Config* c)
     c->moyen=1000;
 }
 
+void initConfigurationFromFile(Config* c)
+{
+    FILE *f=fopen(CONFIG_FILEPATH,"r");
+    char buffer[BUFFER_SIZE]="";
+    int i=0;
+    char line[LINE_MAXLENGTH];
+    char *key,*value,*test;
+
+    test=fgets(line,LINE_MAXLENGTH,f);
+    while(test!=NULL)
+    {
+        if(line[0]!='#' && line[0]!='\n')
+        {
+            key=strtok(line,"=");
+            value=strtok(NULL,"\n");
+            printf("%s\t%s\n",key,value);
+
+            if(!strcmp(key,"windowWidth"))
+                c->windowWidth=atoi(value);
+            else if(!stricmp(key,"windowHeight"))
+                c->windowHeight=atoi(value);
+            else if(!stricmp(key,"roadWidth"))
+                c->roadWidth=(float)atof(value);
+            else if(!stricmp(key,"carWidth"))
+                c->carWidth=(float)atof(value);
+            else if(!stricmp(key,"carLength"))
+                c->carLength=(float)atof(value);
+            else if(!stricmp(key,"carLength"))
+                c->carLength=(float)atof(value);
+            else if(!stricmp(key,"trafficLightPosition1"))
+                c->trafficLightPosition1=(float)atof(value);
+            else if(!stricmp(key,"trafficLightPosition2"))
+                c->trafficLightPosition2=(float)atof(value);
+
+            else if(!stricmp(key,"roadVirtualLengthFactor"))
+                c->roadVirtualLengthFactor=(float)atof(value);
+            else if(!stricmp(key,"v0"))
+                c->v0=(float)atof(value);
+            else if(!stricmp(key,"T"))
+                c->T=(float)atof(value);
+            else if(!strcmp(key,"s0"))
+                c->s0=(float)atof(value);
+            else if(!strcmp(key,"a"))
+                c->a=(float)atof(value);
+            else if(!strcmp(key,"b"))
+                c->b=(float)atof(value);
+            else if(!strcmp(key,"moyen"))
+                c->moyen=(float)atof(value);
+        }
+        test=fgets(line,LINE_MAXLENGTH,f);
+
+    }
+    c->s0=2/c->roadVirtualLengthFactor;
+}
 

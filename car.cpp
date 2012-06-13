@@ -41,7 +41,7 @@ void carIn(CarList*cl)
         cl->count=1;
         return;
     }
-    else
+    else if(cl->count<cl->size)
     {
          cl->lastCar=(cl->lastCar+1)%cl->size;
          cl->count++;
