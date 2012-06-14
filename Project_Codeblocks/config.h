@@ -25,6 +25,8 @@ typedef struct
     float trafficLightPosition2;
     /**Desired velocity (km/h)*/
     float v0;
+    /**The velocity in the beginning*/
+    float v_begin;
     /**Time headway*/
     float T;
     /**Minimum gap*/

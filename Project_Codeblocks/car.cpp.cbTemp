@@ -16,7 +16,7 @@ void initCarlist(CarList**cl, int size,Config c)
     for(i=0; i<size; i++)
     {
         (*cl)->carArray[i].x=x;
-        (*cl)->carArray[i].v=10;
+        (*cl)->carArray[i].v=c.v0;
         (*cl)->carArray[i].a=c.a;
         //x=x-c.carLength-2*c.s0;
         //carlist[i].lastUpdateTime=clock();
@@ -32,21 +32,24 @@ void initCarlist(CarList**cl, int size,Config c)
 //{
 //    return (i+1)%cl->size;
 //}
-void carIn(CarList*cl)
+void carIn(CarList*cl, Config c)
 {
     if(cl->count==0 )
     {
         cl->firstCar=0;
         cl->lastCar=0;
         cl->count=1;
-        return;
+
     }
     else if(cl->count<cl->size)
     {
          cl->lastCar=(cl->lastCar+1)%cl->size;
          cl->count++;
     }
-
+    cl->carArray[cl->lastCar].a=c.a;
+    cl->carArray[cl->lastCar].x=0.0;
+    cl->carArray[cl->lastCar].v=c.v_begin;
+    return;
 }
 
 void carOut(CarList*cl)

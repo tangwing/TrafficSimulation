@@ -1,0 +1,48 @@
+\section{Introduction}
+Nous choisissons le robot Lynxmotion comme le matériel à contrôler par AndroPOD, parce qu'il n'existe actuellement pas beaucoup d'équipement qui se munit encore une interface série dont AndroPOD a besoin pour le contrôler. D'ailleurs, contrôler un petit robot avec un mobile est une façon assez directe pour montrer la force de la carte AndroPOD.
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=14cm]{pics/ch3_robot.jpg}
+	\caption{Robot Lynxmotion}
+	\label{fig:ch3_robot}
+\end{figure}
+
+Le robot est un bras robotisé dont les documentations sont disponibles sur le site de Lynxmotion\footnote{\url{http://www.lynxmotion.com/driver.aspx?Topic=assem01\#l6}}. Il a été utilisé avant dans un notre projet, alors tout d'abord nous essayons de vérifier son état de fonctionnement. Nous avons installé son logiciel de contrôle nommé \textit{LynxTerm} qui a une interface comme figure\ref{fig:ch3_lynxterm}. Pour faire fonctionner ce logiciel, il faut que l'on installe un pilote USB-to-Serial\footnote{\url{http://www.prolific.com.tw/eng/downloads.asp?id=31}}, pour avoir un port série virtuel.
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=14cm]{pics/ch3_lynxterm.jpg}
+	\caption{Terminal de contrôle : LynxTerm}
+	\label{fig:ch3_lynxterm}
+\end{figure}
+
+Avec ce logiciel de contrôle, nous avons trouvé qu'il y a 5 servomoteurs au total dont 2 ne fonctionnent pas, mais nous ne les avons pas puisque ça ne nous empêche pas de montrer la fonctionnalité de l'AndroPOD. Alors maintenant, ce qui nous intéresse, c'est le format de commandes pour contrôler ce robot, c'est-à-dire les informations transmises entre LynxTerm et le robot.
+
+\section{Format des commandes}
+Pour trouver la structure des commandes, nous avons étudié le manuel de référence de la carte SSC-32\footnote{Il est attaché à la fin du rapport. On peut le trouver aussi ici : \url{http://www.lynxmotion.com/images/data/ssc-32.pdf}} qui est intégré avec le robot, et qui reçois et traite les commandes. Finalement, nous constatons que le format de commandes est de forme ''\# <ch> P <pw> S <spd> T<time> <cr>'', dont les explications sont :
+\bigskip
+\begin{itemize}
+	\item <ch> : Le numéro de canal, forme décimal, 0-31. Il correspond au servomoteur qu'on veut contrôler ;
+ 	\item <pw> : La largeur de pulsation en microseconde, 500-2500 ;
+ 	\item <spd> (facultatif) : La vitesse de mouvement en microseconde ; 
+ 	\item <time> (facultatif) : La durée en milliseconde désignée pour un mouvement complet, valide pour tous les canaux ;
+ 	\item <cr> : Retour de chariot, ASCII 13, obligatoire pour finir une commande.
+\end{itemize}
+\bigskip
+
+
+Dans les commandes au-dessus, il y a des paramètres en microseconde qui concernent à la conception au moteur servo. Puisque c'est un peu loin de notre but du projet, on ne va pas étudier profondément sur ce point, par contre il suffit de savoir la position en angle correspondante comme l'indiqué à la figure\ref{fig:ch3_motorrange}.
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=14cm]{pics/ch3_motorrange.jpg}
+	\caption{Mouvement des servomoteurs du robot}
+	\label{fig:ch3_motorrange}
+\end{figure}
+
+Maintenant on connaît le format de commandes. Par exemple, la commande \textit{\#5 P1500 S100 <cr>} déplace le moteur 5 à la position centrale (2\ieme{} rangée dans la figure\ref{fig:ch3_motorrange}), ayant une vitesse de 100$\mu$s par seconde. Un mouvement de 1000$\mu$s correspond au $90^\circ$, donc ''100$\mu$s par seconde'' signifie que ça coûte 10 secondes à tourner $90^\circ$.
+
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=16cm]{pics/ch3_schema_ssc32.pdf}
+	\caption{Schéma de la carte SSC32 intégrée avec le robot}
+	\label{fig:ch3_schema_ssc32}
+\end{figure}

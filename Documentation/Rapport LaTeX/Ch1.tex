@@ -1,0 +1,130 @@
+IDM est un modèle de la simulation du trafic urbain. Il est développé par Treiber, Hennecke and Helbing en 2000 pour améliorer les modèles existants qui ont moins de propriétés réelles.
+
+\section{Définition}
+
+$
+\frac{dv}{dt}=a\left[1-\left(\frac{v}{v_{0}}\right)^{\delta}-
+												\left(\frac{s^{*}}{s}\right)^{2}\right] \\
+s^{*}=s_{0}+vT+\frac{v\Delta v}{2\sqrt{ab}}
+$
+
+L'architecture d'Android se compose de 4 couches. Elles sont la couche d'application, le cadre de l'application, les bibliothèques et le noyau Linux. La figure \ref{fig:ch1_architechture} montre les principaux composants du système d'exploitation Android.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=14cm]{pics/ch1_architechture.png}
+	\caption{\label{fig:ch1_architechture}Architechture du système Android\protect\footnotemark}
+\end{figure}
+\footnotetext{\url{http://developer.android.com/guide/basics/what-is-android.html}}
+
+\subsection{Caractéristique}
+Android fournit un ensemble d'applications de bases, y compris un client email, une application SMS, un calendrier, une carte, un navigateur, etc.
+
+\subsection{Cadre de l'application}
+En fournissant une plateforme de développement ouvert, Android offre aux développeurs la possibilité de créer des applications extrêmement riches et innovantes. Les développeurs sont libres de profiter du matériel périphérique, d'obtenir les informations de la position géographique, d'exécuter les services d'arrière-plan, d'ajouter des notifications à la barre d'état, etc.
+
+
+Les développeurs ont un accès complet aux APIs utilisés par les applications de noyau. L'architecture d'application est conçue pour la réutilisation des composants. 
+
+Toutes les applications sont une collection des services, y compris : 
+\bigskip
+\begin{itemize}
+	\item Une collection riche de \textit{View} qui peuvent être utilisée pour construire une application, y compris des listes, des grilles, des zones de texte, des boutons et même un navigateur web à embarquer.
+ 	\item Des \textit{Content Providers} qui permettent aux applications d'accéder aux données provenant d'autres applications (tels que les \textit{Contacts}), ou de partager leurs données.
+ 	\item Un \textit{Resource Manager} qui offre l'accès aux ressources comme les chaînes de caractères localisées, les graphiques, et les fichiers de mise en page.
+ 	\item Un \textit{Notification Manager} qui permet toutes les applications à afficher des alertes personnalisées dans la barre d'état.
+ 	\item Un \textit{Activity Manager} qui gère le cycle de vie d'application et fournit une pile de navigation.
+\end{itemize}
+
+\subsection{Bibliothèques}
+Android comprend une collection de bibliothèque de C ou C++ utilisé par les composants différents. Ces capacités sont fournies par le cadre d'application Android. Certaines de ces bibliothèques de noyau sont montrées ci-dessous:
+\bigskip
+\begin{itemize}
+	\item System C library - une implémentation de la bibliothèque C standard du système (libc).
+ 	\item Media Libraries - basé sur OpenCORE de PacketVideo. Des bibliothèques permettent l'enregistrement audio et vidéo, ainsi que des fichiers d'images, y compris MPEG4, H.264, MP3, AAC, AMR, JPG et PNG. 
+ 	\item Surface Manager - gère l'accès au sous-système d'affichage
+ 	\item LibWebCore - c'est un moteur de navigateur moderne qui alimente le navigateur Android et une Web View embarqué. 
+ 	\item SGL - le moteur graphique 2D. 
+ 	\item 3D Libraries - une implémentation basée sur OpenGL ES 1.0 APIs; les bibliothèques utilisent l'accélération matérielle 3D (si disponible) ou le logiciel 3D optimisé hautement.
+ 	\item SQLite - un moteur de base de données relationnelles puissant et léger à la disposition pour toutes les applications.
+\end{itemize}
+
+\subsection{Phase d'exécution Android}
+Android comprend une collection des bibliothèques de noyau qui offrent la plupart des fonctionnalités disponibles du langage Java.
+
+
+Chaque application Android s'exécute dans son propre processus, avec sa propre machine virtuelle Dalvik. Dalvik est conçue pour qu'un matériel puisse exécuter efficacement plusieurs machines virtuelles en même temps. Le VM Dalvik exécute les fichiers de format exécutable Dalvik (.Dex), qui est optimisé pour la minimale d'occupation mémoire. Le VM Dalvik dépend le noyau Linux pour les fonctionnalités de bas-niveau comme le management de la mémoire.
+
+\subsection{Noyau Linux}
+Android est basé sur le noyau Linux 2.6 pour les services du système noyau, tels que la sécurité, la gestion de la mémoire, la gestion des processus, etc. Le noyau est regardé comme une couche d'abstraction entre le matériel et le reste de la pile logicielle.
+
+\section{Fonctionnement des applications Android}
+Toutes les applications Android sont écrites en langage Java. Les outils du SDK Android compile le code --- avec toutes les données et les fichiers de ressources --- dans un package Android, un fichier d'archive avec un suffixe \textit{.apk}. Tout le code dans un seul fichier \textsl{.apk} est considéré comme une seule application.
+
+
+Quand installé sur un matériel, l'application Android vit dans sa propre boite de sécurité:
+\bigskip
+\begin{itemize}
+	\item Le système d'exploitation Android est un système multi-utilisateurs, sous lequel chaque application est un utilisateur différent.
+ 	\item Par défaut, le système attribue à chaque application un ID utilisateur Linux qui est utilisé uniquement par le système et qui est inconnu pour l'application. Le système définit les autorisations de tous les fichiers de l'application, pour que seulement les utilisateurs qui ont le droit peuvent y accéder.
+ 	\item Chaque processus a sa propre machine virtuelle (VM), donc l'application fonctionne séparément.
+ 	\item Par défaut, chaque application s'exécute dans son propre processus Linux. Android démarre le processus lorsqu'un composant de l'application doit être exécuté, et arrête le processus quand il n'est plus nécessaire ou quand le système doit récupérer la mémoire pour d'autres applications.
+\end{itemize}
+\bigskip
+
+Une application Android se compose d'une collection des composants. Il y a 4 composants principaux : \textit{Activity}, \textit{Service}, \textit{ContentProvider}, \textit{BroadCast receiver}. 
+
+\section{Environnement de développement}
+%Dans cette partie, nous présentons l'environnement du travail, \textcolor{red}{qui inclut les outils matériels et les outils de développement (logiciels et technologies exploités)}.
+
+
+\begin{description}
+	\item[Installation de JDK] \hfill \\ On développe l'application Android avec le langage Java, donc le JDK est essentiel. Dans ce projet, nous utilisons le JDK version 6, qui peut être téléchargé du site officiel\footnote{\url{http://www.oracle.com/technetwork/java/javase/downloads/index.html}}.
+	
+	\item[Installation de SDK Android] \hfill \\ Nous avons téléchargé le SDK Android depuis le site développeur Android\footnote{\url{http://developer.android.com/sdk/index.html}}. Puis, nous les avons extraits sous le répertoire \verb?C:\Program Files\android-sdk-windows?.
+	
+	\item[Installation de Eclipse] \hfill \\ Eclipse est un IDE gratuit très célèbre dans le domaine informatique. On peut le télécharger à partir du site Eclipse, la version \textit{Eclipse IDE for Java Developers}est recommandée\footnote{\url{http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/indigosr2}}.
+	
+	\item[Installation de ADT] \hfill \\ Dans Eclipse, cliquer par séquence : help $\rightarrow$ Install New software $\rightarrow$ Add, puis remplir les champs en fonction de la figure\ref{fig:ch1_addrepository}:\\
+		
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=10cm]{pics/ch1_addrepository.jpg}
+		\caption{\label{fig:ch1_addrepository}Installation de ADT - Add repository}
+		\end{figure}
+		
+		
+		Après cliquer sur ''OK'', Eclipse affiche les plugins disponiblies. Nous sélectionnons le ''Android DDMS''(Android Dalvid Debug Moniter Server) et le ''ADT''(Android Development Tools). Nous validons les étapes suivantes et nous redémarrons Eclipse pour finir l'installation des plugins. Maintenant on peut trouver les paramètre Android ici : Windows $\rightarrow$ Preferences $\rightarrow$ Android.
+		
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=10cm]{pics/ch1_preferences.jpg}
+		\caption{\label{fig:ch1_preferences}Preferences Android}
+		\end{figure}
+	
+	
+	\item[Configuration de SDK] \hfill \\ Sous le menu Windows $\rightarrow$ Android SDK Manager, on peut sélectionner et installer les paquets nécessaires. Dans notre cas, API version 2.3 est suffisante. Ce qu'il faut faire attention, c'est que la version API doit être supporté par l'appareil ciblé.
+	
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=10cm]{pics/ch1_androidsdkmanager.jpg}
+			\caption{\label{fig:ch1_androidsdkmanager}Android SDK Manager}
+		\end{figure}
+
+
+	\item[Configuration de AVD] \hfill \\ Pour tester notre application pentant le développement, on peut utiliser directement notre portable Android, ou bien la lancer dans un appareil virtuel(AVD). Pour ce dernier, on peut lancer le gestionnaire AVD sous le menu \textit{Windows}, et créer un nouveau AVD en précisant les paramètre. 
+
+%\\[\intextsep]
+%\begin{minipage}{\textwidth}
+%\centering
+%\includegraphics[width=8cm]{pics/ch1_createavd.jpg}
+%\label{fig:ch1_createavd}
+%\end{minipage}
+%\\[\intextsep]
+		\begin{figure}[!h]
+			\centering
+			\includegraphics[width=8cm]{pics/ch1_createavd.jpg}
+			\caption{\label{fig:ch1_createavd}Création d'un AVD}
+		\end{figure}
+
+
+\end{description}

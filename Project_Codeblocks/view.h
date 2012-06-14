@@ -10,6 +10,9 @@
 #include "car.h"
 //#include "shishi.h"
 #define PI 3.1416
+#define MENU_START 1
+#define MENU_RENEW 2
+#define MENU_SYNC 3
 //#define N 40
 //
 extern Config config;
@@ -32,5 +35,6 @@ void mouse(int button, int state, int x, int y);
 
 void drawCircle(double x, double y, double radius, int fill);
 void timer_func(int value);
+void menuFonc(int value);
 
 #endif

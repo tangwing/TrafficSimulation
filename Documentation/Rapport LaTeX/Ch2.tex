@@ -1,0 +1,87 @@
+\section{Introduction}
+L'Interface AndroPOD sert d'un port série pour les téléphones ou les tablettes Android. Il fonctionne avec l'appareil Android non modifié. Contrairement à toutes les autres solutions similaires sur le marché, l'interface AndroPOD permet les développeurs pour déboguer l'application de téléphone lorsque le téléphone est connecté à l'interface AndroPOD. Donc c'est un outil qui peut beaucoup faciliter le développement des applications Android.
+
+
+Deux acticles\footnote{\url{http://www.elektor.fr/magazines/2012/fevrier/andropod-(1).2057762.lynkx}} \footnote{\url{http://www.elektor.fr/magazines/2012/mars/andropod-(2).2085663.lynkx}} provenant du magazine \textit{Elector} introduisent en détail la fonctionnalité de la carte avec un exemple réalisé. La carte était aussi commandée sur ce site.
+
+
+L'interface AndroPOD est conçue pour être intégré dans votre propre projet. Nous pouvons l'utiliser dans plusieurs situations, par exemple pour les robots, les gadgets ou tous autres projets qu'on peut penser. Avec l'interface AndroPOD, on renforce son projet avec les fonctionnalités WIFI, 3G, 4G, Bluetooth, GPS etc. Si on a besoin un grand écran couleur avec écran tactile, AndroPOD peut aussi offre ses aides. Dans notre projet, nous l'utilisons pour que l'on puisse contrôler le robot Lynxmotion avec notre appareil\footnote{Samsung Galaxy Nexus, fourni par l'école} Android.
+
+\section{Utilisation}
+
+Sur ce site\footnote{\url{http://www.xdevelop.at}}, nous avons trouvé un tutorial détailé pour prendre en mains AndroPOD. 
+
+
+Pour connecter et communiquer avec la carte à partir du bout Android, il suffit d'établir un serveur TCP sur le port 1337.
+
+
+\begin{lstlisting}
+try
+{
+     //Etablir un serveur sur le port 1337
+     ServerSocket socket = new ServerSocket(1337);
+    
+     //Attendre la connexion de Andropod
+     Socket andropodInterface = socket.accept();
+
+     //Ouvrir IO flux
+     PrintReader in = new BufferedReader(new InputStreamReader(andropodInterface.getInputStream()));
+     PrintWriter out = new PrintWriter(andropodInterface.getOutputStream(), true);
+
+     //Envoyer ce que vous voulez
+     out.println("Hello Androdpod!");
+
+     //Recevoir les données
+     string message = in.readln();
+}
+catch (IOException e) 
+{
+     //En cas d'exception
+} 
+\end{lstlisting}
+
+
+D'autre part, pour relier AndroPOD et le mobile avec le câble usb-microusb fourni, il suffit de faire après ces 5 étapes :
+\bigskip
+\begin{enumerate}
+	\item \textbf{Configuration de l'interface Andropod avec le PC}\\
+Installer le logiciel de configuration Andropod sur le PC, changer l'interface Andropod en ''Configure mode'' (voir figure\ref{fig:ch2_carte}) et la connecter au PC en utilisant un USB câble. Ensuite, on peut éventuellement configurer les autres paramètres avec \textit{AndroPOD Interface Controller}(figure\ref{fig:ch2_andropodcontroller}).
+
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=14cm]{pics/ch2_carte.jpg}
+	\caption{La carte AndroPOD}
+	\label{fig:ch2_carte}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=14cm]{pics/ch2_andropodcontroller.png}
+	\caption{AndroPOD Interface Controller}
+	\label{fig:ch2_andropodcontroller}
+\end{figure}
+
+	\item \textbf{Connecter-la au robot}\\
+Utiliser quatre fils simples, dont deux pour le voltage +5 V, GND et les deux autres pour RX et TX. L'interface AndroPOD a besoin de 5V vers 550mA afin de charger le téléphone Android (si on n'arrive pas à charger le téléphone lorsqu'il est connecté à l'USB , l'énergie sera consommée très vite. C'est notre cas.). Maintenant une LED sur l'interface Andropod doit s'allumer.
+
+	\item \textbf{Activer l'option ''Débogage USB'' sur le mobile Android}\\
+
+	\item \textbf{Connectez l'appareil Android à Andropod}\\
+Maintenant la deuxième LED sur l'interface AndroPOD devrait commencer à clignoter, et le téléphone devrait nous dire que le débogage USB est connecté.
+
+	\item \textbf{Démarrez l'application sur le téléphone Android}
+Maintenant la deuxième LED arrête de clignoter et rester allumée.
+\end{enumerate}
+
+
+Après ces 5 étapes, nous avons réussi de connecter l'interface AndroPOD.
+
+
+
+
+\begin{figure}[!ht]
+	\centering
+		\includegraphics[width=16cm]{pics/ch2_schema.pdf}
+	\caption{Schéma de la carte AndroPOD}
+	\label{fig:ch2_schema}
+\end{figure}

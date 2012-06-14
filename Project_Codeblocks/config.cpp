@@ -17,6 +17,7 @@ void initConfiguration(Config* c)
     c->roadVirtualLengthFactor=0.2;
     //c->n=50;
     //c->v0=220/3.6/c->roadVirtualLengthFactor; /** m/s -> pixel/s */
+    c->v_begin=50;
     c->v0=500;
     c->T=1.5;
     c->s0=2/c->roadVirtualLengthFactor;/** m -> pixel */
@@ -63,6 +64,8 @@ void initConfigurationFromFile(Config* c)
                 c->roadVirtualLengthFactor=(float)atof(value);
             else if(!stricmp(key,"v0"))
                 c->v0=(float)atof(value);
+            else if(!stricmp(key,"v_begin"))
+                c->v_begin=(float)atof(value);
             else if(!stricmp(key,"T"))
                 c->T=(float)atof(value);
             else if(!strcmp(key,"s0"))

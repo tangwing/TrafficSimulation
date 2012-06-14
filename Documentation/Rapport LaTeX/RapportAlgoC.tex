@@ -1,0 +1,54 @@
+
+\documentclass[twoside]{EPURapport}
+\input{include.tex}
+
+\nolistoftables
+\thedocument{Rapport de projet d'Algorithme et de Langage C}{Simulation du trafic urbain}{Simulation du trafic}
+
+\grade{Département Informatique\\ 3\ieme{} année\\ 2011 - 2012}
+
+\authors{%
+	\category{Étudiants}{%
+		\name{Lei SHANG} \mail{lei.shang@etu.univ-tours.fr}
+		\name{Yanxiao HU} \mail{yanxiao.hu@etu.univ-tours.fr}
+	}
+	\details{DI3 2011 - 2012}
+}
+
+\supervisors{%
+	\category{Encadrants}{%
+		\name{Néron EMMANUEL} \mail{emmanuel.neron@univ-tours.fr}
+	}
+	\details{Université François-Rabelais, Tours}
+}
+
+\abstracts{Le \textit{modèle de conducteur intélligent}(IDM) est un modèle qui représente l'action des conducteurs, c'est-à-dire le mouvement raisonable des voitures dans un trafic urbain. Nous avons établi l'algorithme à partir de ce modèle pour simuler visuellement sur l'écran, une file de voiture sur la route avec 2 feux de circulation. L'application que nous avons réalisé peut être fortement configurable à l'aide du ficher de configuration.}
+{IDM, Simulation du trafic, Algorithme, OpenGL}
+{The \textit{Intelligent driver model}(IDM) is a time-continuous car-following model for the simulation of freeway and urban traffic. According to this model, we have proposed an algorithm and then an application to simulate traffic on the screen. This application is developped with C programming language and can be highly custumized with the help of the configuration file.}
+{IDM, Traffic simulation, Algorithm, OpenGL}
+
+
+\begin{document}
+
+\chapter{Introduction}
+\input{Ch_intro.tex}
+
+\chapter{IDM (Intelligent Driver Model)}
+\input{Ch1.tex}
+
+\chapter{Algorithme de l'application}
+\input{Ch2.tex}
+
+\chapter{OpenGL}
+\input{Ch3.tex}
+
+\chapter{Mise en oeuvre}
+\input{Ch4.tex}
+
+\chapter{Conclusion}
+\input{Ch_conclu.tex}
+
+\annexes
+
+\end{document}
+

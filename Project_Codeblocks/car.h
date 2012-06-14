@@ -10,7 +10,7 @@ typedef struct
     /**The current acceleration*/
     float a;
     /**The last update time*/
-    long lastUpdateTime;
+    //long lastUpdateTime;
 } Car;
 
 typedef struct
@@ -25,7 +25,7 @@ typedef struct
 //Init the carlist according to the given count, all cars are set at the beginning line
 void initCarlist(CarList**cl, int size,Config c);
 //When a new car enter the screen
-void carIn(CarList*cl);
+void carIn(CarList*cl,Config c);
 //When a car goes out of the screen
 void carOut(CarList*cl);
 /**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/

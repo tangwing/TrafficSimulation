@@ -33,7 +33,7 @@ void myDisplay(void)
     glColor3f(1.0,1.0,1.0);
     if(cars->count>0)
     {
-        printf("count:%d;",cars->count);
+        printf("count:%d;\n",cars->count);
         first=cars->firstCar;
         n=cars->count;//Function carOut will change the value of count
         for(index=0; index<n; index++)
@@ -46,11 +46,7 @@ void myDisplay(void)
                         -config.windowWidth/2.0+cars->carArray[i].x,
                         -config.carWidth/2.0);
                 //printf("%d-point:%f\t",i,-config.windowWidth/2.0+cars->carArray[i].x);
-                printf("%d:%f;%f;%f;%f;%f;\n",i,cars->carArray[i].x,
-                        -config.windowWidth/2.0+cars->carArray[i].x-config.carLength,
-                        config.carWidth/2.0,
-                        -config.windowWidth/2.0+cars->carArray[i].x,
-                        -config.carWidth/2.0);
+                printf("%d:%f\n",i,cars->carArray[i].x);
             }
             else
             {
@@ -152,14 +148,15 @@ void refresh(void)
     }
 
 
-    printf("currentTime=%ld;lastCarEnterTime=%ld;interval=%ld;carindex=%d;x=%f;\n",currentTime,lastCarEnterTime,intervalBeforeNextCar,cars->lastCar,cars->carArray[cars->lastCar].x);
+//    printf("currentTime=%ld;lastCarEnterTime=%ld;interval=%ld;\n",currentTime,lastCarEnterTime,intervalBeforeNextCar,cars->lastCar,cars->carArray[cars->lastCar].x);
+//    printf("first=%d;last=%d;x=%f;\n",cars->firstCar,cars->lastCar,cars->carArray[cars->lastCar].x);
     //Add a new car if necessary (!Only when there is place!)
     if(currentTime-lastCarEnterTime>=intervalBeforeNextCar&&
        cars->count>0&&
        (cars->carArray[cars->lastCar].x-config.carLength-config.s0>0))
     {
-        carIn(cars);
-        printf("first=%d;carindex=%d;x=%f;\n",cars->firstCar,cars->lastCar,cars->carArray[cars->lastCar].x);
+        carIn(cars,config);
+        printf("last=%d,car.a=%f",cars->lastCar,cars->carArray[cars->lastCar]);
         lastCarEnterTime=clock();
         intervalBeforeNextCar=getInterval(config.moyen);
 
@@ -189,38 +186,38 @@ void mouse(int button, int state, int x, int y)
     switch(button)
     {
     case GLUT_LEFT_BUTTON:
-        if(state==GLUT_UP)
-        {
-            //For the first time
-            if(cars->count==0)
-            {
-                carIn(cars);
-                lastCarEnterTime=clock();
-                lastUpdateTime=lastCarEnterTime;
-                intervalBeforeNextCar=getInterval(config.moyen);
-            }
-            glutIdleFunc(refresh);
-        }
+//        if(state==GLUT_UP)
+//        {
+//            //For the first time
+//            if(cars->count==0)
+//            {
+//                carIn(cars,config);
+//                lastCarEnterTime=clock();
+//                lastUpdateTime=lastCarEnterTime;
+//                intervalBeforeNextCar=getInterval(config.moyen);
+//            }
+//            glutIdleFunc(refresh);
+//        }
 
         break;
     case GLUT_MIDDLE_BUTTON:
         if(state==GLUT_UP)
         {
-            initConfigurationFromFile(&config);
+            if(state==GLUT_UP)
+            {
+                if(isTrafficLightRed==0)
+                    isTrafficLightRed=1;
+                else
+                    isTrafficLightRed=0;
+                glutPostRedisplay();
+            }
+        //initConfigurationFromFile(&config);
             //glutIdleFunc(NULL);
             //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
         }
-
         break;
     case GLUT_RIGHT_BUTTON:
-        if(state==GLUT_UP)
-        {
-            if(isTrafficLightRed==0)
-                isTrafficLightRed=1;
-            else
-                isTrafficLightRed=0;
-            glutPostRedisplay();
-        }
+
     default:
         break;
     }
@@ -255,4 +252,26 @@ void timer_func(int value)
         value --;
         printf("I'm a timer !");
     }
+}
+void menuFonc(int value)
+{
+    switch(value)
+    {
+        case MENU_START:
+            if(cars->count==0)
+            {
+                carIn(cars,config);
+                lastCarEnterTime=clock();
+                lastUpdateTime=lastCarEnterTime;
+                intervalBeforeNextCar=getInterval(config.moyen);
+            }
+            glutIdleFunc(refresh);
+            break;
+        case MENU_RENEW:
+            initConfigurationFromFile(&config);
+            break;
+        case MENU_SYNC:
+        default:;
+    }
+    printf("IM a menu %d\n",value);
 }

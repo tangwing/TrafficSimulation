@@ -1,4 +1,6 @@
+#pragma comment(linker,"/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #include "view.h"
+
 
 Config config;
 CarList* cars=NULL;
@@ -7,6 +9,7 @@ long lastUpdateTime=0;
 
 int isTrafficLightRed=0;
 //long intervalBeforeNextCar=3;
+
 int main(int argc, char** argv)
 {
 //    FILE *f=fopen("D:\\Git\\TrafficSimulation\\test.txt","w+");
@@ -16,7 +19,9 @@ int main(int argc, char** argv)
 //    long d=(long)fgets(s,20,f);
 //    printf("%ld\n",d);
 //    /*
+//int menuid;
     srand(time(NULL));
+//    initConfiguration(&config);
     initConfigurationFromFile(&config);
     //config.windowWidth=glutGet(GLUT_SCREEN_WIDTH)-10;
     //config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
@@ -29,6 +34,9 @@ int main(int argc, char** argv)
     glutInitWindowSize(config.windowWidth,config.windowHeight);
     //glutInitWindowSize(500,500);
     glutInitWindowPosition(0,0);
+
+
+
     glutCreateWindow("Traffic Simulation");
 
     glClearColor(25.0/255,134.0/255,19.0/255,0.3);
@@ -36,6 +44,13 @@ int main(int argc, char** argv)
     glutReshapeFunc(myReshape);
     glutDisplayFunc(myDisplay);
     glutMouseFunc(mouse);
+
+    menuid=glutCreateMenu(menuFonc);
+    //glutSetMenu(menuid);
+    glutAddMenuEntry("Start",MENU_START);
+    glutAddMenuEntry("Renew configuration",MENU_RENEW);
+    glutAddMenuEntry("Synchronize the traffic lights",MENU_SYNC);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 //    glutTimerFunc(3000,timer_func,5);
 //    glutTimerFunc(10000,timer_func,5);
