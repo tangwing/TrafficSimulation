@@ -45,7 +45,8 @@ int main(int argc, char** argv)
     glutDisplayFunc(myDisplay);
     glutMouseFunc(mouse);
 
-    menuid=glutCreateMenu(menuFonc);
+    //menuid=
+    glutCreateMenu(menuFonc);
     //glutSetMenu(menuid);
     glutAddMenuEntry("Start",MENU_START);
     glutAddMenuEntry("Renew configuration",MENU_RENEW);

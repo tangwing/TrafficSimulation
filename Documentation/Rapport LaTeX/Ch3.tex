@@ -1,48 +1,69 @@
+Après effectuer la première partie de travail sur l'algorithme, nous passons à la suite pour la réalisation de l'application. D'après le but de ce projet, nous choisissons langage C pour la réalisation. Cependant, ce que l'on veut faire, c'est de la programmation graphique, qui ne peut pas être réalisée en utilisant simplement ce que l'on a étudié pendant le cours. Alors nous avons fait de la recherche pour trouver une solution. Enfin nous avons choisi le technique OpenGL pour le faire.
+
 \section{Introduction}
-Nous choisissons le robot Lynxmotion comme le matériel à contrôler par AndroPOD, parce qu'il n'existe actuellement pas beaucoup d'équipement qui se munit encore une interface série dont AndroPOD a besoin pour le contrôler. D'ailleurs, contrôler un petit robot avec un mobile est une façon assez directe pour montrer la force de la carte AndroPOD.
-\begin{figure}[!ht]
+OpenGL(Open Graphics Library) est une librairie multiplate-forme qui définit un ensemble d'API pour faciliter la conception de l'application qui concerne les graphiques 3D/2D. Par rapport à DirectX(l'autre technique similaire sorti par Microsoft), OpenGL supporte plusieurs plate-formes. Par conséquent elle est déjà le standard de l'industrie. Elle contient environ 250 fonctions qui peuvent être utilisées pour afficher des scènes trimentionnelles complex à partir des simples primitives géométriques.
+
+
+Puisque OpenGL est simplement un ensemble des fonctions, elle seule ne nous permet pas de créer une fenêtre pour montrer notre application. Donc il existe plusieus extensions d'OpenGL qui fournit d'autres fonctionnalités. GLUT(OpenGL Utility Toolkit) est un bon choix.
+
+
+\section{Environnement de développement}
+Pour réaliser cette application, nous avons choisi CodeBlocks comme notre outil de développement. Pour établir l'environnement de OpenGL, nous avons suivi les démarches suivantes:
+
+\begin{enumerate}
+	\item Télécharger et installer CodeBlocks.
+	\item Télécharger les fichers de GLUT.
+	\item Placer glut32.dll à \verb§c:\windows\system§; glut32.lib à \verb§c:\program files\mingw\lib§, et
+glut.h à \verb§c:\program files\mingw\include\GL§. Ce sont tous les positions par défault, en principe, les fichers *.dll doit toujours être placé sous le répertoire système Windows; les *.lib et *.h sont mis respectivement sous les répertoire de librairie et de ficher en-tête du compilateur.
+	\item Dans CodeBlocks, créer un nouveau projet GLUT et poursuivre les démarches.
+	
+	\begin{figure}[!ht]
 	\centering
-		\includegraphics[width=14cm]{pics/ch3_robot.jpg}
-	\caption{Robot Lynxmotion}
-	\label{fig:ch3_robot}
-\end{figure}
+		\includegraphics[width=14cm]{pics/ch3_newglut.png}
+	\caption{Nouveau projet GLUT}
+	\label{fig:ch3_newglut}
+	\end{figure}
+	
+	\item Enfin on obtient un projet d'exemple, mais on doit quand même ajouter quelques choses pour le faire marcher. Ajouter \verb%#include<windows.h>% au début du ficher Main.
+	\item Maintenant on peut déjà lancer cet application d'exemple.
+	\begin{figure}[!ht]
+		\centering
+			\includegraphics[width=14cm]{pics/ch3_glexemple.png}
+		\caption{Exemple projet GLUT}
+		\label{fig:ch3_glexemple}
+	\end{figure}
+\end{enumerate}
 
-Le robot est un bras robotisé dont les documentations sont disponibles sur le site de Lynxmotion\footnote{\url{http://www.lynxmotion.com/driver.aspx?Topic=assem01\#l6}}. Il a été utilisé avant dans un notre projet, alors tout d'abord nous essayons de vérifier son état de fonctionnement. Nous avons installé son logiciel de contrôle nommé \textit{LynxTerm} qui a une interface comme figure\ref{fig:ch3_lynxterm}. Pour faire fonctionner ce logiciel, il faut que l'on installe un pilote USB-to-Serial\footnote{\url{http://www.prolific.com.tw/eng/downloads.asp?id=31}}, pour avoir un port série virtuel.
-\begin{figure}[!ht]
-	\centering
-		\includegraphics[width=14cm]{pics/ch3_lynxterm.jpg}
-	\caption{Terminal de contrôle : LynxTerm}
-	\label{fig:ch3_lynxterm}
-\end{figure}
-
-Avec ce logiciel de contrôle, nous avons trouvé qu'il y a 5 servomoteurs au total dont 2 ne fonctionnent pas, mais nous ne les avons pas puisque ça ne nous empêche pas de montrer la fonctionnalité de l'AndroPOD. Alors maintenant, ce qui nous intéresse, c'est le format de commandes pour contrôler ce robot, c'est-à-dire les informations transmises entre LynxTerm et le robot.
-
-\section{Format des commandes}
-Pour trouver la structure des commandes, nous avons étudié le manuel de référence de la carte SSC-32\footnote{Il est attaché à la fin du rapport. On peut le trouver aussi ici : \url{http://www.lynxmotion.com/images/data/ssc-32.pdf}} qui est intégré avec le robot, et qui reçois et traite les commandes. Finalement, nous constatons que le format de commandes est de forme ''\# <ch> P <pw> S <spd> T<time> <cr>'', dont les explications sont :
-\bigskip
-\begin{itemize}
-	\item <ch> : Le numéro de canal, forme décimal, 0-31. Il correspond au servomoteur qu'on veut contrôler ;
- 	\item <pw> : La largeur de pulsation en microseconde, 500-2500 ;
- 	\item <spd> (facultatif) : La vitesse de mouvement en microseconde ; 
- 	\item <time> (facultatif) : La durée en milliseconde désignée pour un mouvement complet, valide pour tous les canaux ;
- 	\item <cr> : Retour de chariot, ASCII 13, obligatoire pour finir une commande.
-\end{itemize}
-\bigskip
+\section{Structure d'une application OpenGL}
+Pour maîtriser OpenGL, il y a beaucoup de connaîssances à étudier, mais ici, on peut quand même montrer une structure d'une petite application OpenGL.
 
 
-Dans les commandes au-dessus, il y a des paramètres en microseconde qui concernent à la conception au moteur servo. Puisque c'est un peu loin de notre but du projet, on ne va pas étudier profondément sur ce point, par contre il suffit de savoir la position en angle correspondante comme l'indiqué à la figure\ref{fig:ch3_motorrange}.
-\begin{figure}[!ht]
-	\centering
-		\includegraphics[width=14cm]{pics/ch3_motorrange.jpg}
-	\caption{Mouvement des servomoteurs du robot}
-	\label{fig:ch3_motorrange}
-\end{figure}
+La fonction main est généralement comme ça:
+\lstlisting{begin}
+int main(int argc, char** argv)
+{
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB);
+    glutInitWindowSize(config.windowWidth,config.windowHeight);
+    glutInitWindowPosition(0,0);
+    glutCreateWindow("Traffic Simulation");
+    glClearColor(25.0/255,134.0/255,19.0/255,0.3);//Couleur de l'arrière plan
+    glShadeModel(GL_SMOOTH);
+    /*Function callback. Fonction myReshape sera invoqué quand la fenêtre change sa forme.*/
+    glutReshapeFunc(myReshape);
+    /*Fonction myDisplay actualiser l'écran*/
+    glutDisplayFunc(myDisplay);
+    /*mouse est invoqué quand un bouton de la souris est appuyé*/
+    glutMouseFunc(mouse);
 
-Maintenant on connaît le format de commandes. Par exemple, la commande \textit{\#5 P1500 S100 <cr>} déplace le moteur 5 à la position centrale (2\ieme{} rangée dans la figure\ref{fig:ch3_motorrange}), ayant une vitesse de 100$\mu$s par seconde. Un mouvement de 1000$\mu$s correspond au $90^\circ$, donc ''100$\mu$s par seconde'' signifie que ça coûte 10 secondes à tourner $90^\circ$.
-
-\begin{figure}[!ht]
-	\centering
-		\includegraphics[width=16cm]{pics/ch3_schema_ssc32.pdf}
-	\caption{Schéma de la carte SSC32 intégrée avec le robot}
-	\label{fig:ch3_schema_ssc32}
-\end{figure}
+		/*Créer un munu*/
+    glutCreateMenu(menuFonc);
+    glutAddMenuEntry("Start",MENU_START);
+    glutAddMenuEntry("Renew configuration",MENU_RENEW);
+    glutAddMenuEntry("Synchronize the traffic lights",MENU_SYNC);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    
+    /*Cette dernière ligne commence la boucle principale de cet application*/
+    glutMainLoop();
+}
+\lstlisting{end}
