@@ -1,6 +1,5 @@
 #include "config.h"
 
-/**Here should be replaced by reading config file*/
 void initConfiguration(Config* c)
 {
     /**Parameters for display*/
@@ -16,9 +15,7 @@ void initConfiguration(Config* c)
     /**Parameters of the traffic*/
     /** (Virtual length(m) of the road)/windowWidth(pixel). */
     //c->roadVirtualLengthFactor=0.2;
-    //c->n=50;
-    //c->v0=220/3.6/c->roadVirtualLengthFactor; /** m/s -> pixel/s */
-    c->v_begin=50;
+    c->v_begin=200;
     c->v0=500;
     c->T=1.5;
     c->s0=10;//c->roadVirtualLengthFactor;/** m -> pixel */
@@ -30,8 +27,6 @@ void initConfiguration(Config* c)
 void initConfigurationFromFile(Config* c)
 {
     FILE *f=fopen(CONFIG_FILEPATH,"r");;
-    char buffer[BUFFER_SIZE]="";
-    int i=0;
     char line[LINE_MAXLENGTH];
     char *key,*value,*test;
 
@@ -40,27 +35,28 @@ void initConfigurationFromFile(Config* c)
     {
         f=fopen(CONFIG_FILEPATH,"w+");
         fprintf(f,"#The first two parameters of window are used for \n#the initialisation of the window, so they should not be\n# changed during the runtime\n");
+        fprintf(f,"#time unit:ms\n");
         fprintf(f,"windowWidth=1000\n");
         fprintf(f,"windowHeight=500\n");
         fprintf(f,"roadWidth=40\n");
-        fprintf(f,"carWidth=15\n");
-        fprintf(f,"carLength=20\n");
+        fprintf(f,"carWidth=20\n");
+        fprintf(f,"carLength=30\n\n");
         fprintf(f,"#The position of traffic lights is specified by their\n#proportion to the window width\n");
         fprintf(f,"trafficLightPosition1=0.3\n");
         fprintf(f,"trafficLightPosition2=0.6\n");
         fprintf(f,"lightDurationWhenSynchronized=5000\n");
-        fprintf(f,"lightChangeDelayWhenSynchronized=2000\n");
+        fprintf(f,"lightChangeDelayWhenSynchronized=2000\n\n");
         fprintf(f,"#Parameters of the traffic\n");
         fprintf(f,"#(Virtual length(m) of the road)/windowWidth(pixel).\n");
         fprintf(f,"#This is not used:roadVirtualLengthFactor=0.2\n");
         fprintf(f,"v0=500\n");
-        fprintf(f,"v_begin=50\n");
-        fprintf(f,"T=1.5\n");
+        fprintf(f,"v_begin=300\n\n");
+        fprintf(f,"#unit:s\nT=1.5\n");
         fprintf(f,"s0=10\n");
         fprintf(f,"a=30\n");
-        fprintf(f,"#unit:ms\n");
-        fprintf(f,"b=6\n");
-        fprintf(f,"moyen=2000\n");
+        fprintf(f,"b=30\n\n");
+        fprintf(f,"#This value should not be too large, because if\n# there is no car moving on the screen, openGL will stop refresh it.\n");
+        fprintf(f,"moyen=1000\n");
         fflush(f);
         rewind(f);
     }

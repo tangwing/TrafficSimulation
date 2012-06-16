@@ -118,6 +118,15 @@ L'algorithme suivant est la partie du coeur, qui applique le modèle IDM. C'est u
 \section{Temps d'arrivée des voitures}
 Pour être plus réel, nous considérons que l'interval entre le temps d'arrivée des deux voitures contiguës doit être aléatoire. L'utilisateur peut fixer un temps moyen dans le fichier de configuration(le nom du paramètre est \textit{moyen}), et l'application va générer un temps aléatoire exponentiel de ce moyen pendant l'exécution.
 
+
+Notre méthode de génération d'un temps aléatoire unifié à partir du moyen est indiquée par l'équation suivante. L'opérateur \textit{ln} est utilisé pour que la variable générée soit plus unifiée.
+\begin{subequations}
+\begin{align}
+%\label{equ:ch2_random}
+t=(-moyen*(ln(rand()\%1001*0.001f)))\%(2*moyen)
+\end{align}
+\end{subequations}
+
 \section{Synchronisation des feux}
 Pendant l'exécution de notre application, on peut changer manuellement les deux feux par appuyer sur le clavier 1 et 2. Mais on peut aussi synchroniser les deux feux pour qu'ils puissent changer automatiquement. L'esprit c'est que le délai de changement entre les deux feux doit être bien considérer. Par exemple, quand le premier feu devient vert, une voiture démarre, alors c'est mieux qu'elle touve que le deuxième feu devient aussi vert quand elle arrive. Alors nous somme surpris que ce projet nous donne une chance à reprendre la physique que nous avons apris au lycée.
 

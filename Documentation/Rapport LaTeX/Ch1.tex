@@ -11,7 +11,7 @@ Les équations décrit ce modèle.
 %\label{equ:ch1_modele}
 \frac{dv}{dt} & =a \left[1-\left(\frac{v}{v_{0}}\right)^{\delta}-
 												\left(\frac{s^{*}}{s}\right)^{2}\right] \\
-s^{*} & = s_{0}+vT+\frac{v\Delta v}{2\sqrt{ab}}
+s^{*} & = s_{0}+min\left[0,vT+\frac{v\Delta v}{2\sqrt{ab}}\right]
 \end{align}
 \end{subequations}
 

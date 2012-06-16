@@ -1,5 +1,6 @@
 #include "car.h"
-
+/**Init the carlist according to the given count,
+ **all cars are set at the beginning line*/
 void initCarlist(CarList**cl, int size,Config c)
 {
     int i;
@@ -16,22 +17,12 @@ void initCarlist(CarList**cl, int size,Config c)
     for(i=0; i<size; i++)
     {
         (*cl)->carArray[i].x=x;
-        (*cl)->carArray[i].v=c.v0;
+        (*cl)->carArray[i].v=c.v_begin;
         (*cl)->carArray[i].a=c.a;
-        //x=x-c.carLength-2*c.s0;
-        //carlist[i].lastUpdateTime=clock();
     }
 }
 
-//int addIndex(CarList*cl,int i)
-//{
-//    return (i+1)%cl->size;
-//}
-//
-//int Index(CarList*cl,int i)
-//{
-//    return (i+1)%cl->size;
-//}
+/**When a new car enter the screen*/
 void carIn(CarList*cl, Config c)
 {
     if(cl->count==0 )
@@ -43,17 +34,15 @@ void carIn(CarList*cl, Config c)
     }
     else
     {
-        printf("carIn:%d+1",cl->lastCar);
          cl->lastCar=(cl->lastCar+1)%cl->size;
          cl->count++;
-         printf("%%%d=%d\n",cl->size,cl->lastCar);
     }
     cl->carArray[cl->lastCar].a=c.a;
     cl->carArray[cl->lastCar].x=0.0;
     cl->carArray[cl->lastCar].v=c.v_begin;
     return;
 }
-
+/**When a car goes out of the screen*/
 void carOut(CarList*cl)
 {
     if(cl->count==0)return;
@@ -71,12 +60,9 @@ void carOut(CarList*cl)
 
 }
 
-
 /**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
 long getInterval(long moyen)
 {
-    return -moyen*(log(rand()%1001*0.001f));
+    return (long)(-moyen*(log(rand()%1001*0.001f)))%(2*moyen);
+    //return moyen*(rand()%1001*0.001f);
 }
-
-
-

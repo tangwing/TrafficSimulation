@@ -6,15 +6,14 @@
 #endif
 #ifndef VIEWH
 #define VIEWH
-//#include "config.h"
+
 #include "car.h"
-//#include "shishi.h"
+
 #define PI 3.1416
 #define MENU_START 1
 #define MENU_RENEW 2
 #define MENU_SYNC 3
-//#define N 40
-//
+
 extern Config config;
 extern CarList *cars;
 /**The last update time*/
@@ -22,20 +21,18 @@ extern long lastUpdateTime;
 extern int isTrafficLight1Red;
 extern int isTrafficLight2Red;
 extern int isLightSynchronized;
-// Config config;
-// Car *cars;
-///**The last update time*/
-// long lastUpdateTime;
-// int isTrafficLightRed;
 
+/**The call back function for OpenGL for drawing*/
 void myDisplay(void);
-/** Here update the position of cars*/
+/** Here update the position of cars, called by GL at idle time*/
 void refresh(void);
+/**Called by GL when the window is reshaped*/
 void myReshape(GLsizei w, GLsizei h);
-void mouse(int button, int state, int x, int y);
-
+/**Draw a circle as traffic light.*/
 void drawCircle(double x, double y, double radius, int fill);
 void switchLight(int value);
+/**Bound with mouse right button as a menu fonction*/
 void menuFonc(int value);
+/**Fonction dealing with key action*/
 void keyDown(unsigned char,int,int);
 #endif

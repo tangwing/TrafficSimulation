@@ -18,8 +18,6 @@ typedef struct
     float roadVirtualLengthFactor;
     float carWidth;
     float carLength;
-    /**The total number of cars*/
-    //int n;
     /**Traffic light position, percentage to the window size*/
     float trafficLightPosition1;
     float trafficLightPosition2;
@@ -42,7 +40,6 @@ typedef struct
     float moyen;
 } Config;
 
-/**This should be replaced by reading config file*/
 void initConfiguration(Config* c);
 void initConfigurationFromFile(Config* c);
 #endif

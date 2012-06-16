@@ -40,6 +40,7 @@ Le ficher de configuration nommé \verb{TS_setting.ini{ se trouve sous le réperto
 #The first two parameters about the window are used for 
 #the initialisation of the window, so they should not be
 # changed during the runtime
+#time unit:ms
 windowWidth=1000
 windowHeight=500
 
@@ -57,11 +58,13 @@ lightChangeDelayWhenSynchronized=-1;
 #Parameters of the traffic
 v0=500
 v_begin=50
+#unit:s
 T=1.5
 s0=2
 a=30
 b=6
-#unit:ms
+#This value should not be too large, because if
+#there is no car moving on the screen, openGL will stop refresh it.
 moyen=1000
 \end{lstlisting}
 
