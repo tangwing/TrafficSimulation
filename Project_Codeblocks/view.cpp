@@ -16,17 +16,16 @@ void myDisplay(void)
     glVertex2f( config.windowWidth/2.0, config.roadWidth/2.0);
     glEnd();
     //draw the two traffic lights
-    if(isTrafficLightRed==1)
-    {
-        //red light
+    if(isTrafficLight1Red==1)//red light
         glColor3f(1,0,0);
-    }
-    else
-    {
-        glColor3f(0,1,0);
-    }
+    else glColor3f(0,1,0);
+
     glBegin(GL_LINE_LOOP);
     drawCircle(config.trafficLightPosition1*config.windowWidth-config.windowWidth/2.0,config.roadWidth,10,1);
+    if(isTrafficLight2Red==1)
+        glColor3f(1,0,0);
+    else
+        glColor3f(0,1,0);
     drawCircle(config.trafficLightPosition2*config.windowWidth-config.windowWidth/2.0,config.roadWidth,10,1);
     glEnd();
     //Draw cars
@@ -108,9 +107,21 @@ void refresh(void)
         a1= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
         /**Juge whether the traffic light is valide for current car.
          The driver take the red light as the car in front.*/
-        if(isTrafficLightRed==1 && cars->carArray[i].x<config.trafficLightPosition1*config.windowWidth)
+        if(isTrafficLight1Red==1 && cars->carArray[i].x<config.trafficLightPosition1*config.windowWidth)
         {
             deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[i].x;
+            deltaV=cars->carArray[i].v;
+            sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
+            a2= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
+
+            if(a1>a2)
+                cars->carArray[i].a=a2;
+            else
+                cars->carArray[i].a=a1;
+        }
+        else if(isTrafficLight2Red==1 && cars->carArray[i].x<config.trafficLightPosition2*config.windowWidth)
+        {
+            deltaS=config.trafficLightPosition2*config.windowWidth-cars->carArray[i].x;
             deltaV=cars->carArray[i].v;
             sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
             a2= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
@@ -124,15 +135,25 @@ void refresh(void)
         {
             cars->carArray[i].a=a1;
         }
-
     }
     //i==cars->firstCar
     if(i==cars->firstCar)
     {
         a1= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4));
-        if(isTrafficLightRed==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition1*config.windowWidth)
+        if(isTrafficLight1Red==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition1*config.windowWidth)
         {
             deltaS=config.trafficLightPosition1*config.windowWidth-cars->carArray[cars->firstCar].x;
+            deltaV=cars->carArray[cars->firstCar].v;
+            sStar=config.s0+cars->carArray[cars->firstCar].v*config.T+(cars->carArray[cars->firstCar].v*deltaV/(2*sqrt(config.a*config.b)));
+            a2= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4)-pow(sStar/deltaS,2));
+            if(a1>a2)
+                cars->carArray[cars->firstCar].a=a2;
+            else
+                cars->carArray[cars->firstCar].a=a1;
+        }
+        else if(isTrafficLight2Red==1 && cars->carArray[cars->firstCar].x<config.trafficLightPosition2*config.windowWidth)
+        {
+            deltaS=config.trafficLightPosition2*config.windowWidth-cars->carArray[cars->firstCar].x;
             deltaV=cars->carArray[cars->firstCar].v;
             sStar=config.s0+cars->carArray[cars->firstCar].v*config.T+(cars->carArray[cars->firstCar].v*deltaV/(2*sqrt(config.a*config.b)));
             a2= config.a*(1-pow(cars->carArray[cars->firstCar].v/config.v0,4)-pow(sStar/deltaS,2));
@@ -201,21 +222,17 @@ void mouse(int button, int state, int x, int y)
 
         break;
     case GLUT_MIDDLE_BUTTON:
-        if(state==GLUT_UP)
-        {
-            if(state==GLUT_UP)
-            {
-                if(isTrafficLightRed==0)
-                    isTrafficLightRed=1;
-                else
-                    isTrafficLightRed=0;
-                glutPostRedisplay();
-            }
-        //initConfigurationFromFile(&config);
-            //glutIdleFunc(NULL);
-            //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
-        }
-        break;
+//        if(state==GLUT_UP)
+//        {
+//            if(state==GLUT_UP)
+//            {
+//
+//            }
+//        //initConfigurationFromFile(&config);
+//            //glutIdleFunc(NULL);
+//            //printf("x=%f;a=%f;v=%f;\n",cars[0].x,cars[0].a,cars[0].v);
+//        }
+//        break;
     case GLUT_RIGHT_BUTTON:
 
     default:
@@ -245,12 +262,20 @@ void drawCircle(double x, double y, double radius,int fill)
     glEnd();
 }
 
-void timer_func(int value)
+void switchLight(int value)
 {
-    if(value>0)
+    if(isLightSynchronized==1)
     {
-        value --;
-        printf("I'm a timer !");
+        if(value==1)
+        {
+            isTrafficLight1Red=1-isTrafficLight1Red;
+            glutTimerFunc(config.lightDurationWhenSynchronized,switchLight,1);
+        }
+        else
+        {
+            isTrafficLight2Red=1-isTrafficLight2Red;
+            glutTimerFunc(config.lightDurationWhenSynchronized,switchLight,2);
+        }
     }
 }
 void menuFonc(int value)
@@ -271,7 +296,33 @@ void menuFonc(int value)
             initConfigurationFromFile(&config);
             break;
         case MENU_SYNC:
+            isLightSynchronized=1;
+            isTrafficLight1Red=0;
+            isTrafficLight2Red=0;
+            glutTimerFunc(0,switchLight,1);
+            glutTimerFunc(config.lightChangeDelayWhenSynchronized,switchLight,2);
         default:;
     }
-    printf("IM a menu %d\n",value);
+    //printf("IM a menu %d\n",value);
+}
+
+void keyDown(unsigned char key, int x, int y)
+{
+    if(key=='1')
+    {
+        isLightSynchronized=0;
+        if(isTrafficLight1Red==0)
+            isTrafficLight1Red=1;
+        else
+            isTrafficLight1Red=0;
+    }
+    else if(key=='2')
+    {
+        isLightSynchronized=0;
+        if(isTrafficLight2Red==0)
+            isTrafficLight2Red=1;
+        else
+            isTrafficLight2Red=0;
+    }
+    glutPostRedisplay();
 }

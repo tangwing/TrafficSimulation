@@ -23,6 +23,8 @@ typedef struct
     /**Traffic light position, percentage to the window size*/
     float trafficLightPosition1;
     float trafficLightPosition2;
+    long lightDurationWhenSynchronized;
+    long lightChangeDelayWhenSynchronized;
     /**Desired velocity (km/h)*/
     float v0;
     /**The velocity in the beginning*/
@@ -35,8 +37,6 @@ typedef struct
     float a;
     /**Deceleration*/
     float b;
-    /**L'écart moyen du temps d'arrivée.[1,5] est préférable*/
-    float beta;
     /** Le moyen temps d'arrivée en milliseconde*/
     float moyen;
 } Config;

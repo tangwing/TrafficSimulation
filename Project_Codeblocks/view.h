@@ -19,8 +19,9 @@ extern Config config;
 extern CarList *cars;
 /**The last update time*/
 extern long lastUpdateTime;
-extern int isTrafficLightRed;
-
+extern int isTrafficLight1Red;
+extern int isTrafficLight2Red;
+extern int isLightSynchronized;
 // Config config;
 // Car *cars;
 ///**The last update time*/
@@ -34,7 +35,7 @@ void myReshape(GLsizei w, GLsizei h);
 void mouse(int button, int state, int x, int y);
 
 void drawCircle(double x, double y, double radius, int fill);
-void timer_func(int value);
+void switchLight(int value);
 void menuFonc(int value);
-
+void keyDown(unsigned char,int,int);
 #endif

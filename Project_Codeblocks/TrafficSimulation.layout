@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="car.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="733" topLine="27" />
+	<File name="car.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="1474" topLine="67" />
 	</File>
-	<File name="car.h" open="0" top="0" tabpos="5">
-		<Cursor position="430" topLine="13" />
+	<File name="car.h" open="1" top="0" tabpos="3">
+		<Cursor position="714" topLine="13" />
 	</File>
-	<File name="config.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="1335" topLine="36" />
+	<File name="config.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="3305" topLine="96" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="6">
-		<Cursor position="694" topLine="21" />
+	<File name="config.h" open="1" top="0" tabpos="2">
+		<Cursor position="669" topLine="16" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="0">
-		<Cursor position="487" topLine="2" />
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="241" topLine="3" />
 	</File>
-	<File name="view.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="8509" topLine="254" />
+	<File name="view.cpp" open="1" top="1" tabpos="4">
+		<Cursor position="670" topLine="15" />
 	</File>
-	<File name="view.h" open="0" top="0" tabpos="7">
-		<Cursor position="843" topLine="20" />
+	<File name="view.h" open="1" top="0" tabpos="6">
+		<Cursor position="869" topLine="28" />
 	</File>
 </CodeBlocks_layout_file>

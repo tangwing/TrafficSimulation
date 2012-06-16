@@ -7,7 +7,9 @@ CarList* cars=NULL;
 /**The last update time*/
 long lastUpdateTime=0;
 
-int isTrafficLightRed=0;
+int isTrafficLight1Red=0;
+int isTrafficLight2Red=1;
+int isLightSynchronized=0;
 //long intervalBeforeNextCar=3;
 
 int main(int argc, char** argv)
@@ -44,7 +46,7 @@ int main(int argc, char** argv)
     glutReshapeFunc(myReshape);
     glutDisplayFunc(myDisplay);
     glutMouseFunc(mouse);
-
+    glutKeyboardFunc(keyDown);
     //menuid=
     glutCreateMenu(menuFonc);
     //glutSetMenu(menuid);

@@ -294,20 +294,20 @@
 
 1339323284 d:\git\trafficsimulation\shishi.h
 
-1339615065 source:d:\git\trafficsimulation\project_codeblocks\config.cpp
+1339856709 source:d:\git\trafficsimulation\project_codeblocks\config.cpp
 	"config.h"
 
-1339615056 d:\git\trafficsimulation\project_codeblocks\config.h
+1339856709 d:\git\trafficsimulation\project_codeblocks\config.h
 	<math.h>
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
 
-1339773624 source:d:\git\trafficsimulation\project_codeblocks\main.cpp
+1339855968 source:d:\git\trafficsimulation\project_codeblocks\main.cpp
 	"view.h"
 
-1339659204 d:\git\trafficsimulation\project_codeblocks\view.h
+1339857540 d:\git\trafficsimulation\project_codeblocks\view.h
 	<windows.h>
 	<GLUT/glut.h>
 	<GL/glut.h>
@@ -316,7 +316,7 @@
 1339614655 d:\git\trafficsimulation\project_codeblocks\car.h
 	"config.h"
 
-1339705210 source:d:\git\trafficsimulation\project_codeblocks\view.cpp
+1339857937 source:d:\git\trafficsimulation\project_codeblocks\view.cpp
 	"view.h"
 
 1339617290 source:d:\git\trafficsimulation\project_codeblocks\car.cpp
