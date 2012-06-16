@@ -80,6 +80,6 @@ void initConfigurationFromFile(Config* c)
         test=fgets(line,LINE_MAXLENGTH,f);
 
     }
-    c->s0=2/c->roadVirtualLengthFactor;
+    c->s0=c->s0/c->roadVirtualLengthFactor;
 }
 

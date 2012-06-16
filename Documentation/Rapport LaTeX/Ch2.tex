@@ -1,4 +1,4 @@
-IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut afficher les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on renover les positions des voitures sur l'écran. A partir de cette idée, nous avons établi deux structures nécéssaires et l'algorithme principale.
+IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut afficher les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on mettre à jour les positions des voitures sur l'écran. A partir de cette idée, nous avons établi deux structures nécéssaires et l'algorithme principale.
 
 
 Les structures de voiture et de la configuration sont définies ci-après:
@@ -12,7 +12,7 @@ nouvelle structure Config
         carWidth:réel; 
        carLength:réel; 
      
-    /** (Longeur(m) virtuel de la route/windowWidth(pixel). */
+    /** (Longueur(m) virtuelle de la route/windowWidth(pixel). */
     roadVirtualLengthFactor:réel; 
     
     /** Paramètres fonctionals */
@@ -74,7 +74,7 @@ Algorithme ci-dessous est un sous-algorithme qui présente le moyen de renouvelle
 \end{algorithm}
 
 
-L'algorithme suivant est la partie du coeur, qui applique le modèle IDM. C'est un sous-algorithme plus détaillé sur le méthode pour mettre à jour le paramètre de l'accélération.
+L'algorithme suivant est la partie du coeur, qui applique le modèle IDM. C'est un sous-algorithme plus détaillé sur la méthode pour mettre à jour le paramètre de l'accélération.
 %Algo updateAcceleration
 \begin{algorithm}[H]
 \caption{Sous-algorithme pour mettre à jour le paramètre de l'accélération}

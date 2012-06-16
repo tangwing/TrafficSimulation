@@ -14,56 +14,58 @@ Pour réaliser cette application, nous avons choisi CodeBlocks comme notre outil 
 	\item Télécharger et installer CodeBlocks.
 	\item Télécharger les fichers de GLUT.
 	\item Placer glut32.dll à \verb§c:\windows\system§; glut32.lib à \verb§c:\program files\mingw\lib§, et
-glut.h à \verb§c:\program files\mingw\include\GL§. Ce sont tous les positions par défault, en principe, les fichers *.dll doit toujours être placé sous le répertoire système Windows; les *.lib et *.h sont mis respectivement sous les répertoire de librairie et de ficher en-tête du compilateur.
-	\item Dans CodeBlocks, créer un nouveau projet GLUT et poursuivre les démarches.
-	
-	\begin{figure}[!ht]
+glut.h à \verb§c:\program files\mingw\include\GL§. Ce sont tous les positions par défault, en principe, les fichers *.dll doit toujours être placé sous le répertoire système Windows; les *.lib et *.h sont mis respectivement sous les répertoire de librairie et de ficher d'en-tête du compilateur.
+	\item Dans CodeBlocks, créer un nouveau projet GLUT et poursuivre les démarches.Figure\ref{fig:ch3_newglut}
+	\item Enfin on obtient un projet d'exemple, mais on doit quand même ajouter quelques choses pour le faire marcher. Ajouter \verb%#include<windows.h>% au début du ficher Main.
+	\item Maintenant on peut déjà lancer cet application d'exemple. Figure\ref{fig:ch3_glexemple}
+\end{enumerate}	
+
+\begin{figure}[!ht]
 	\centering
 		\includegraphics[width=14cm]{pics/ch3_newglut.png}
 	\caption{Nouveau projet GLUT}
 	\label{fig:ch3_newglut}
 	\end{figure}
 	
-	\item Enfin on obtient un projet d'exemple, mais on doit quand même ajouter quelques choses pour le faire marcher. Ajouter \verb%#include<windows.h>% au début du ficher Main.
-	\item Maintenant on peut déjà lancer cet application d'exemple.
 	\begin{figure}[!ht]
 		\centering
 			\includegraphics[width=14cm]{pics/ch3_glexemple.png}
 		\caption{Exemple projet GLUT}
 		\label{fig:ch3_glexemple}
 	\end{figure}
-\end{enumerate}
-
+	
 \section{Structure d'une application OpenGL}
-Pour maîtriser OpenGL, il y a beaucoup de connaîssances à étudier, mais ici, on peut quand même montrer une structure d'une petite application OpenGL.
+\label{ch3_structureopengl}
+Pour maîtriser OpenGL, beaucoup de connaîssances sont nécessaires, mais ici, on peut quand même montrer une structure d'une application simplifiée OpenGL.
 
 
 La fonction main est généralement comme ça:
-\lstlisting{begin}
+\begin{lstlisting}
 int main(int argc, char** argv)
 {
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB);
     glutInitWindowSize(config.windowWidth,config.windowHeight);
     glutInitWindowPosition(0,0);
-    glutCreateWindow("Traffic Simulation");
+    glutCreateWindow(''Traffic Simulation'');
     glClearColor(25.0/255,134.0/255,19.0/255,0.3);//Couleur de l'arrière plan
     glShadeModel(GL_SMOOTH);
-    /*Function callback. Fonction myReshape sera invoqué quand la fenêtre change sa forme.*/
+    /*Function callback. Fonction myReshape sera invoqué 
+     *quand la fenêtre change sa forme.*/
     glutReshapeFunc(myReshape);
     /*Fonction myDisplay actualiser l'écran*/
     glutDisplayFunc(myDisplay);
     /*mouse est invoqué quand un bouton de la souris est appuyé*/
     glutMouseFunc(mouse);
 
-		/*Créer un munu*/
+    /*Créer un menu*/
     glutCreateMenu(menuFonc);
-    glutAddMenuEntry("Start",MENU_START);
-    glutAddMenuEntry("Renew configuration",MENU_RENEW);
-    glutAddMenuEntry("Synchronize the traffic lights",MENU_SYNC);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    glutAddMenuEntry(''Start'',MENU_START);
+    glutAddMenuEntry(''Renew configuration'',MENU_RENEW);
+    glutAddMenuEntry(''Synchronize the traffic lights'',MENU_SYNC);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);//Lier ce menu avec un bouton
     
     /*Cette dernière ligne commence la boucle principale de cet application*/
     glutMainLoop();
 }
-\lstlisting{end}
+\end{lstlisting}
