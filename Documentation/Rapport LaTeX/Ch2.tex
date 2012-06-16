@@ -1,6 +1,6 @@
-IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut afficher les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on mettre à jour les positions des voitures sur l'écran. A partir de cette idée, nous avons établi deux structures nécéssaires et l'algorithme principale.
+IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut afficher les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on mettre à jour les positions des voitures sur l'écran. A partir de cette idée, nous avons établi les structures nécéssaires et l'algorithme principale.
 
-
+\section{Structures des données}
 Les structures de voiture et de la configuration sont définies ci-après:
 \begin{lstlisting}
 nouvelle structure Config
@@ -31,7 +31,25 @@ nouvelle structure Car
 };
 \end{lstlisting}
 
-Et les algorithmes que nous avons créés sont décrits au-dessous. Le premier est l'algorithme fondamental, qui décrit le procédure d'exécution de l'application entière.
+
+Ces deux structures sont plutôt ordinaires, ce qui est plus intéressante est la structure de la liste des voirutres. Pour dessiner les voitures sur l'écran, il faut que chacune voiture est une variable de type Car. La question est que le nombre des voitures n'est pas défini, ou peut est très grand. Donc on ne peut bien sûr pas allouer pour chacune voiture un espace mémoire à stocker les donnée. Alors ce que l'on fait, c'est définir une nouvelle structure \textit{CarList} qui est comme une liste circulaire. L'esprit c'est que en fait on s'intéresse seulement aux voitures qui sont actuellement sur l'écran. Quand une voiture sort de l'écran (en ce moment-là la fonction \textit{carOut} sera invoquée), son espace de stockage est prêt pour être réutilisé.
+
+
+La structure \textit{CarList}:
+\begin{lstlisting}
+nouvelle structure Car
+{
+    Car* carArray;//Le tableau des voitures
+    int count;//Le nombre des voitures qui sont actuellement sur l'écran
+    int size;//La taille du tableau
+    int firstCar;//L'index de la première voiture sur l'écran
+    int lastCar;//L'index de la dernière voiture sur l'écran
+};
+
+\end{lstlisting}
+
+\section{Algorithme principal}
+Les algorithmes que nous avons créés sont décrits au-dessous. Le premier est l'algorithme fondamental, qui décrit le procédure d'exécution de l'application entière.
 %Algo main
 \begin{algorithm}[H]
 \caption{Algorithme fondamental de l'affichage des voitures}
@@ -95,3 +113,13 @@ L'algorithme suivant est la partie du coeur, qui applique le modèle IDM. C'est u
 
 \end{algorithmic}
 \end{algorithm}
+
+
+\section{Temps d'arrivée des voitures}
+Pour être plus réel, nous considérons que l'interval entre le temps d'arrivée des deux voitures contiguës doit être aléatoire. L'utilisateur peut fixer un temps moyen dans le fichier de configuration(le nom du paramètre est \textit{moyen}), et l'application va générer un temps aléatoire exponentiel de ce moyen pendant l'exécution.
+
+\section{Synchronisation des feux}
+Pendant l'exécution de notre application, on peut changer manuellement les deux feux par appuyer sur le clavier 1 et 2. Mais on peut aussi synchroniser les deux feux pour qu'ils puissent changer automatiquement. L'esprit c'est que le délai de changement entre les deux feux doit être bien considérer. Par exemple, quand le premier feu devient vert, une voiture démarre, alors c'est mieux qu'elle touve que le deuxième feu devient aussi vert quand elle arrive. Alors nous somme surpris que ce projet nous donne une chance à reprendre la physique que nous avons apris au lycée.
+
+
+L'utilisateur peut aussi fixer ce paramètre à l'aide du fichier de la configuration. Ça concerne le paramètre \textit{lightChangeDelayWhenSynchronized}, qui est initialement -1 qui veut dire \textbf{intelligent}.

@@ -3,6 +3,7 @@ long intervalBeforeNextCar;
 long lastCarEnterTime;
 void myDisplay(void)
 {
+
     int i,index,n,first;
     glClear(GL_COLOR_BUFFER_BIT);
     glPushMatrix();
@@ -32,7 +33,7 @@ void myDisplay(void)
     glColor3f(1.0,1.0,1.0);
     if(cars->count>0)
     {
-        printf("count:%d;\n",cars->count);
+        //printf("count:%d;\n",cars->count);
         first=cars->firstCar;
         n=cars->count;//Function carOut will change the value of count
         for(index=0; index<n; index++)
@@ -45,7 +46,7 @@ void myDisplay(void)
                         -config.windowWidth/2.0+cars->carArray[i].x,
                         -config.carWidth/2.0);
                 //printf("%d-point:%f\t",i,-config.windowWidth/2.0+cars->carArray[i].x);
-                printf("%d:%f\n",i,cars->carArray[i].x);
+                //printf("%d:%f\n",i,cars->carArray[i].x);
             }
             else
             {
@@ -53,22 +54,22 @@ void myDisplay(void)
             }
 
         }
-        printf("\n");
+        //printf("\n");
 
     }
 
     glPopMatrix();
     glutSwapBuffers();
-    //lastUpdateTime=clock();
+
 }
 
 /** Here update the position of cars*/
 void refresh(void)
 {
+
     int i,index,n,first;
     float deltaT,deltaV,sStar,deltaS,tmp,a1,a2;
     long currentTime=clock();
-
     if(cars->firstCar==-1)
         return;
     deltaT=(currentTime-lastUpdateTime)/1000.0;
@@ -96,13 +97,14 @@ void refresh(void)
     n=cars->count;
     for(index=0; index<n; index++)
     {
-
-        i=(cars->lastCar-index)%cars->size;
+        printf("%d%%%d=",cars->lastCar-index,cars->size);
+        i=(cars->lastCar-index+cars->size)%cars->size;
+        printf("%d\n",i);
         if(i==cars->firstCar)break;
 
-        deltaS=cars->carArray[(i-1)%cars->size].x-cars->carArray[i].x-config.carLength;
+        deltaS=cars->carArray[(i-1+cars->size)%cars->size].x-cars->carArray[i].x-config.carLength;
         //printf("%d->%d__Deltas=%f\n",i,(i-1)%cars->size,deltaS);
-        deltaV=cars->carArray[i].v-cars->carArray[(i-1)%cars->size].v;
+        deltaV=cars->carArray[i].v-cars->carArray[(i-1+cars->size)%cars->size].v;
         sStar=config.s0+cars->carArray[i].v*config.T+(cars->carArray[i].v*deltaV/(2*sqrt(config.a*config.b)));
         a1= config.a*(1-pow(cars->carArray[i].v/config.v0,4)-pow(sStar/deltaS,2));
         /**Juge whether the traffic light is valide for current car.
@@ -132,9 +134,9 @@ void refresh(void)
                 cars->carArray[i].a=a1;
         }
         else
-        {
+        {printf("%d:%f,%d",i,a1,cars->lastCar);
             cars->carArray[i].a=a1;
-        }
+        }printf("->%d\n",cars->lastCar);
     }
     //i==cars->firstCar
     if(i==cars->firstCar)
@@ -172,12 +174,13 @@ void refresh(void)
 //    printf("currentTime=%ld;lastCarEnterTime=%ld;interval=%ld;\n",currentTime,lastCarEnterTime,intervalBeforeNextCar,cars->lastCar,cars->carArray[cars->lastCar].x);
 //    printf("first=%d;last=%d;x=%f;\n",cars->firstCar,cars->lastCar,cars->carArray[cars->lastCar].x);
     //Add a new car if necessary (!Only when there is place!)
+
     if(currentTime-lastCarEnterTime>=intervalBeforeNextCar&&
        cars->count>0&&
        (cars->carArray[cars->lastCar].x-config.carLength-config.s0>0))
     {
         carIn(cars,config);
-        printf("last=%d,car.a=%f",cars->lastCar,cars->carArray[cars->lastCar]);
+        //printf("last=%d,car.a=%f",cars->lastCar,cars->carArray[cars->lastCar]);
         lastCarEnterTime=clock();
         intervalBeforeNextCar=getInterval(config.moyen);
 
@@ -185,6 +188,7 @@ void refresh(void)
     lastUpdateTime=currentTime;
 
     glutPostRedisplay();
+
 }
 
 void myReshape(GLsizei w, GLsizei h)

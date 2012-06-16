@@ -24,6 +24,7 @@ typedef struct
     float trafficLightPosition1;
     float trafficLightPosition2;
     long lightDurationWhenSynchronized;
+    //The value -1 means intelligent
     long lightChangeDelayWhenSynchronized;
     /**Desired velocity (km/h)*/
     float v0;

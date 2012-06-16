@@ -34,7 +34,7 @@ Alors, voir ci-dessous, l'interface de notre application.
 
 \section{Utilisation de l'application}
 \subsection{Ficher de configuration}
-Le ficher de configuration nommé \verb{TS_setting.ini{ se trouve sous le répertoire \verb§C:\§. On peut changer les paramètres selons besoins, même pendant l'exécution de l'application. Les paramètres possèdent un nom clair, les significations sont expliquées dans le ficher. Le suivant est le contenu de ce ficher initislisé.
+Le ficher de configuration nommé \verb{TS_setting.ini{ se trouve sous le répertoire \verb§C:\§. On peut changer les paramètres selons besoins, même pendant l'exécution de l'application. Les paramètres possèdent un nom clair, les significations sont expliquées dans le ficher. L'unité concernant la distance est pixel, et ce qui concerne le temps est milliseconde. Le suivant est le contenu de ce ficher initislisé.
 
 \begin{lstlisting}
 #The first two parameters about the window are used for 
@@ -51,10 +51,10 @@ carLength=20
 #proportion to the window width
 trafficLightPosition1=0.3
 trafficLightPosition2=0.6
+lightDurationWhenSynchronized=5000;
+lightChangeDelayWhenSynchronized=-1;
 
 #Parameters of the traffic
-#(Virtual length(m) of the road)/windowWidth(pixel).
-roadVirtualLengthFactor=0.2
 v0=500
 v_begin=50
 T=1.5
@@ -62,7 +62,7 @@ s0=2
 a=30
 b=6
 #unit:ms
-moyen=2000
+moyen=1000
 \end{lstlisting}
 
 

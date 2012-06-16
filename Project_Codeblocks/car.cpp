@@ -43,8 +43,10 @@ void carIn(CarList*cl, Config c)
     }
     else
     {
+        printf("carIn:%d+1",cl->lastCar);
          cl->lastCar=(cl->lastCar+1)%cl->size;
          cl->count++;
+         printf("%%%d=%d\n",cl->size,cl->lastCar);
     }
     cl->carArray[cl->lastCar].a=c.a;
     cl->carArray[cl->lastCar].x=0.0;

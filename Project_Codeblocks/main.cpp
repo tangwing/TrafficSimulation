@@ -1,6 +1,6 @@
-#pragma comment(linker,"/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+//#pragma comment(linker,"/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #include "view.h"
-
+#define MAX_CAR_NUMBER 50 //max car number on the screen
 
 Config config;
 CarList* cars=NULL;
@@ -8,7 +8,7 @@ CarList* cars=NULL;
 long lastUpdateTime=0;
 
 int isTrafficLight1Red=0;
-int isTrafficLight2Red=1;
+int isTrafficLight2Red=0;
 int isLightSynchronized=0;
 //long intervalBeforeNextCar=3;
 
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     //config.windowHeight=glutGet(GLUT_SCREEN_HEIGHT)-20;
     printf("width=%d;height=%d\n",glutGet(GLUT_SCREEN_WIDTH),glutGet(GLUT_SCREEN_HEIGHT));
     //init the carlist with the biggest possible size
-    initCarlist(&cars,config.windowWidth/config.carLength,config);
+    initCarlist(&cars,MAX_CAR_NUMBER,config);
     //printf("%d",cars->size);
     glutInit(&argc,argv);
     glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB);
