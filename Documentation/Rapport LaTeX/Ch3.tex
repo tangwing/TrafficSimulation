@@ -1,7 +1,7 @@
 Après effectuer la première partie de travail sur l'algorithme, nous passons à la suite pour la réalisation de l'application. D'après le but de ce projet, nous choisissons langage C pour la réalisation. Cependant, ce que l'on veut faire, c'est de la programmation graphique, qui ne peut pas être réalisée en utilisant simplement ce que l'on a étudié pendant le cours. Alors nous avons fait de la recherche pour trouver une solution. Enfin nous avons choisi le technique OpenGL pour le faire.
 
 \section{Introduction}
-OpenGL(Open Graphics Library) est une librairie multiplate-forme qui définit un ensemble d'API pour faciliter la conception de l'application qui concerne les graphiques 3D/2D. Par rapport à DirectX(l'autre technique similaire sorti par Microsoft), OpenGL supporte plusieurs plate-formes. Par conséquent elle est déjà le standard de l'industrie. Elle contient environ 250 fonctions qui peuvent être utilisées pour afficher des scènes trimentionnelles complex à partir des simples primitives géométriques.
+OpenGL(Open Graphics Library) est une librairie multiplate-forme qui définit un ensemble d'API pour faciliter la conception de l'application qui concerne les graphiques 3D/2D. Par rapport à DirectX(l'autre technique similaire sorti par Microsoft), OpenGL supporte plusieurs plate-formes. Par conséquent elle est déjà le standard de l'industrie. Elle contient environ 250 fonctions qui peuvent être utilisées pour affichier des scènes trimentionnelles complex à partir des simples primitives géométriques.
 
 
 Puisque OpenGL est simplement un ensemble des fonctions, elle seule ne nous permet pas de créer une fenêtre pour montrer notre application. Donc il existe plusieus extensions d'OpenGL qui fournit d'autres fonctionnalités. GLUT(OpenGL Utility Toolkit) est un bon choix.
@@ -12,11 +12,11 @@ Pour réaliser cette application, nous avons choisi CodeBlocks comme notre outil 
 
 \begin{enumerate}
 	\item Télécharger et installer CodeBlocks.
-	\item Télécharger les fichers de GLUT.
+	\item Télécharger les fichiers de GLUT.
 	\item Placer glut32.dll à \verb§c:\windows\system§; glut32.lib à \verb§c:\program files\mingw\lib§, et
-glut.h à \verb§c:\program files\mingw\include\GL§. Ce sont tous les positions par défault, en principe, les fichers *.dll doit toujours être placé sous le répertoire système Windows; les *.lib et *.h sont mis respectivement sous les répertoire de librairie et de ficher d'en-tête du compilateur.
+glut.h à \verb§c:\program files\mingw\include\GL§. Ce sont tous les positions par défault, en principe, les fichiers *.dll doit toujours être placé sous le répertoire système Windows; les *.lib et *.h sont mis respectivement sous les répertoire de librairie et de fichier d'en-tête du compilateur.
 	\item Dans CodeBlocks, créer un nouveau projet GLUT et poursuivre les démarches.Figure\ref{fig:ch3_newglut}
-	\item Enfin on obtient un projet d'exemple, mais on doit quand même ajouter quelques choses pour le faire marcher. Ajouter \verb%#include<windows.h>% au début du ficher Main.
+	\item Enfin on obtient un projet d'exemple, mais on doit quand même ajouter quelques choses pour le faire marcher. Ajouter \verb%#include<windows.h>% au début du fichier Main.
 	\item Maintenant on peut déjà lancer cet application d'exemple. Figure\ref{fig:ch3_glexemple}
 \end{enumerate}	
 

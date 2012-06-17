@@ -1,4 +1,4 @@
-IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut afficher les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on mettre à jour les positions des voitures sur l'écran. A partir de cette idée, nous avons établi les structures nécéssaires et l'algorithme principale.
+IDM est un modèle qui est basé sur l'état, c'est-à-dire quand on précise un moment, on peut déterminer les états (position, vitesse...) des voiture, et donc on peut affichier les voiture sur l'écran. Ce que l'on a besoin, c'est seulement une boucle où on mettre à jour les positions des voitures sur l'écran. A partir de cette idée, nous avons établi les structures nécéssaires et l'algorithme principale.
 
 \section{Structures des données}
 Les structures de voiture et de la configuration sont définies ci-après:
@@ -12,15 +12,23 @@ nouvelle structure Config
         carWidth:réel; 
        carLength:réel; 
      
-    /** (Longueur(m) virtuelle de la route/windowWidth(pixel). */
-    roadVirtualLengthFactor:réel; 
-    
+    /** Positions des deux feux sont spécifiées en fonction 
+      de leurs proportions to the windowWidth*/
+		trafficLightPosition1=0.3
+		trafficLightPosition2=0.6
+    lightChangeDelayWhenSynchronized:entier;
+		lightDurationWhenSynchronized:entier;
+		
+		/** (Longueur(m) virtuelle de la route/windowWidth(pixel). */
+    		roadVirtualLengthFactor:réel;
+    		
     /** Paramètres fonctionals */
     v0:réel; /**La vitesse désirée(km/h)*/    
      T:réel; /**Temps de réaction*/
     s0:réel; /**Gap minimal*/
      a:réel; /**Accélération*/ 
      b:réel; /**Décélération*/
+     moyen:entier; /**Interval moyen du temps d'arrivée en ms*/
 };
 
 nouvelle structure Car
@@ -129,6 +137,14 @@ t=(-moyen*(ln(rand()\%1001*0.001f)))\%(2*moyen)
 
 \section{Synchronisation des feux}
 Pendant l'exécution de notre application, on peut changer manuellement les deux feux par appuyer sur le clavier 1 et 2. Mais on peut aussi synchroniser les deux feux pour qu'ils puissent changer automatiquement. L'esprit c'est que le délai de changement entre les deux feux doit être bien considérer. Par exemple, quand le premier feu devient vert, une voiture démarre, alors c'est mieux qu'elle touve que le deuxième feu devient aussi vert quand elle arrive. Alors nous somme surpris que ce projet nous donne une chance à reprendre la physique que nous avons apris au lycée.
+
+
+Le délai de changement entre les deux feux est calculé automatiquement selon : 
+\begin{subequations}
+\begin{align}
+t=\frac{\sqrt{2ad}}{a}
+\end{align}
+\end{subequations}
 
 
 L'utilisateur peut aussi fixer ce paramètre à l'aide du fichier de la configuration. Ça concerne le paramètre \textit{lightChangeDelayWhenSynchronized}, qui est initialement -1 qui veut dire \textbf{intelligent}.

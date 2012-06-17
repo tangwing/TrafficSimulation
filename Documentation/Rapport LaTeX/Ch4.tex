@@ -1,4 +1,4 @@
-\section{Structure des fichers du projet}
+\section{Structure des fichiers du projet}
 Dans le premier temps, nous avons créer une version simplifiée de notre application, simplement pour avoir une impression d'OpenGL. Ensuit, nous avons conçu à nouveau la structure du projet pour ajouter les autres fonctionnalités et aussi pour la clarté.
 
 
@@ -6,17 +6,17 @@ A la fin, notre projet a une structure comme Figure\ref{fig:ch4_filestructure}.
 	\begin{figure}[!ht]
 		\centering
 			\includegraphics[width=7cm]{pics/ch4_filestructure.png}
-		\caption{Structure des fichers}
+		\caption{Structure des fichiers}
 		\label{fig:ch4_filestructure}
 	\end{figure}
 	
-Les fonctions des fichers sont organisés selon l'idée de module. Les explications des fichers sont présentées ci-après.
+Les fonctions des fichiers sont organisés selon l'idée de module. Les explications des fichiers sont présentées ci-après.
 \bigskip
 \begin{description}
-	\item[config.c(.h)] \hfill \\ Il concerne les définitions et les opérations par rapport à la configuration. La fonction principale dans cette partie est la fonction \textit{void initConfigurationFromFile(Config* c)}, qui, comme l'indiquer dans le nom de la fonction, sert à initialiser la configuration de l'application à partir d'un ficher.
+	\item[config.c(.h)] \hfill \\ Il concerne les définitions et les opérations par rapport à la configuration. La fonction principale dans cette partie est la fonction \textit{void initConfigurationFromFile(Config* c)}, qui, comme l'indiquer dans le nom de la fonction, sert à initialiser la configuration de l'application à partir d'un fichier.
 	\item[car.c(.h)] \hfill \\ Il contient les définitions et les opérations qui concernent la structure \textit{Voiture}. Nous avons aussi défini une structure de la liste des voiture, et les autres fonctions telle que \textit{carIn, carOut} correspondent à l'événement d'entrée et de sortie d'une voiture de la fenêtre.
-	\item[view.c(.h)] \hfill \\ Ce ficher contient toutes les fonctions nécéssaires pour l'affichage, y compris les fonctions principales OpenGL. Par exemple, les fonctions indiquées dans la section \ref{ch3_structureopengl}, \textit{myResharp, myDisplay, mouse, menuFonc}, etc.
-	\item[main.c] \hfill \\ Le ficher qui contient la fonction \textit{main} qui a une structure typique OpenGL présentée dans le chapitre précédent.
+	\item[view.c(.h)] \hfill \\ Ce fichier contient toutes les fonctions nécéssaires pour l'affichage, y compris les fonctions principales OpenGL. Par exemple, les fonctions indiquées dans la section \ref{ch3_structureopengl}, \textit{myResharp, myDisplay, mouse, menuFonc}, etc.
+	\item[main.c] \hfill \\ Le fichier qui contient la fonction \textit{main} qui a une structure typique OpenGL présentée dans le chapitre précédent.
 \end{description}	
 	
 \section{Interface de l'application}
@@ -33,8 +33,8 @@ Alors, voir ci-dessous, l'interface de notre application.
 	
 
 \section{Utilisation de l'application}
-\subsection{Ficher de configuration}
-Le ficher de configuration nommé \verb{TS_setting.ini{ se trouve sous le répertoire \verb§C:\§. On peut changer les paramètres selons besoins, même pendant l'exécution de l'application. Les paramètres possèdent un nom clair, les significations sont expliquées dans le ficher. L'unité concernant la distance est pixel, et ce qui concerne le temps est milliseconde. Le suivant est le contenu de ce ficher initislisé.
+\subsection{Fichier de configuration}
+Le fichier de configuration nommé \verb{TS_setting.ini{ se trouve sous le répertoire \verb§C:\§. On peut changer les paramètres selons besoins, même pendant l'exécution de l'application. Les paramètres possèdent un nom clair, les significations sont expliquées dans le fichier. L'unité concernant la distance est pixel, et ce qui concerne le temps est milliseconde. Le suivant est le contenu de ce fichier initislisé.
 
 \begin{lstlisting}
 #The first two parameters about the window are used for 
@@ -73,7 +73,7 @@ moyen=1000
 
 \begin{description}
 	\item[Cliquer-droit$\rightarrow$ Start]  \hfill \\Faire entrer la file de voitures.
-	\item[Cliquer-droit$\rightarrow$ Renew configuration] \hfill \\Renouveler les configurations de l'application après que l'on a changé le ficher de configuration.
+	\item[Cliquer-droit$\rightarrow$ Renew configuration] \hfill \\Renouveler les configurations de l'application après que l'on a changé le fichier de configuration.
 	\item[Cliquer-droit$\rightarrow$ Synchronize the traffic lights] \hfill \\Synchroniser les deux feux.
 	\item[Appuyer bouton 1] \hfill \\Arrêter la synchronisation des feux et basculer le premier feu. 
 	\item[Appuyer bouton 2] \hfill \\Arrêter la synchronisation des feux et basculer le deuxième feu. 
