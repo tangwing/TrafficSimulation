@@ -2,24 +2,24 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="car.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="1284" topLine="50" />
+		<Cursor position="1399" topLine="52" />
 	</File>
-	<File name="car.h" open="0" top="0" tabpos="3">
-		<Cursor position="607" topLine="18" />
+	<File name="car.h" open="1" top="0" tabpos="5">
+		<Cursor position="765" topLine="16" />
 	</File>
 	<File name="config.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="2240" topLine="88" />
+		<Cursor position="4730" topLine="80" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
 		<Cursor position="1060" topLine="31" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="167" topLine="0" />
+	<File name="main.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="235" topLine="15" />
 	</File>
-	<File name="view.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="9455" topLine="267" />
+	<File name="view.cpp" open="1" top="1" tabpos="6">
+		<Cursor position="7341" topLine="207" />
 	</File>
 	<File name="view.h" open="1" top="0" tabpos="1">
-		<Cursor position="902" topLine="20" />
+		<Cursor position="902" topLine="22" />
 	</File>
 </CodeBlocks_layout_file>

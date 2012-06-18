@@ -180,7 +180,7 @@ void refresh(void)
     {
         carIn(cars,config);
         lastCarEnterTime=clock();
-        intervalBeforeNextCar=getInterval(config.moyen);
+        intervalBeforeNextCar=getInterval(config.moyen,config.T*1000);
         printf("interval=%ld\n",intervalBeforeNextCar);
     }
     lastUpdateTime=currentTime;
@@ -246,7 +246,7 @@ void menuFonc(int value)
                 carIn(cars,config);
                 lastCarEnterTime=clock();
                 lastUpdateTime=lastCarEnterTime;
-                intervalBeforeNextCar=getInterval(config.moyen);
+                intervalBeforeNextCar=getInterval(config.moyen,config.T);
             }
             glutIdleFunc(refresh);
             break;

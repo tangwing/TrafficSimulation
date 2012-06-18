@@ -27,6 +27,7 @@ void initCarlist(CarList**cl, int size,Config c);
 void carIn(CarList*cl,Config c);
 /**When a car goes out of the screen*/
 void carOut(CarList*cl);
-/**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
-long getInterval(long moyenMillisecond);
+/**Calculer le temps d'attend avant l'arrivée
+T est le temps de sécurité dans la config de la voiture suivante*/
+long getInterval(long moyenMillisecond, long T);
 #endif

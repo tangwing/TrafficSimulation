@@ -45,7 +45,7 @@ void initConfigurationFromFile(Config* c)
         fprintf(f,"trafficLightPosition1=0.3\n");
         fprintf(f,"trafficLightPosition2=0.6\n");
         fprintf(f,"lightDurationWhenSynchronized=5000\n");
-        fprintf(f,"lightChangeDelayWhenSynchronized=2000\n\n");
+        fprintf(f,"lightChangeDelayWhenSynchronized=-1\n\n");
         fprintf(f,"#Parameters of the traffic\n");
         fprintf(f,"#(Virtual length(m) of the road)/windowWidth(pixel).\n");
         fprintf(f,"#This is not used:roadVirtualLengthFactor=0.2\n");
@@ -113,4 +113,5 @@ void initConfigurationFromFile(Config* c)
     //We try to calculate a better lightChangeDelay.(t=sqrt(2as)/a)
     if(c->lightChangeDelayWhenSynchronized==-1)
         c->lightChangeDelayWhenSynchronized=1+(long)(1000*sqrt(2*c->a*(c->trafficLightPosition2-c->trafficLightPosition1)*c->windowWidth)/c->a);
+    printf("delay:%ld\n",c->lightChangeDelayWhenSynchronized);
 }

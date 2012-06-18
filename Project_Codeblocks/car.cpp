@@ -61,8 +61,8 @@ void carOut(CarList*cl)
 }
 
 /**Calculer le temps d'attend avant l'arrivée de la voiture suivante*/
-long getInterval(long moyen)
+long getInterval(long moyen, long T)
 {
-    return (long)(-moyen*(log(rand()%1001*0.001f)))%(2*moyen);
+    return (long)(-moyen*(log(rand()%1001*0.001f)))%(long)moyen+T;
     //return moyen*(rand()%1001*0.001f);
 }

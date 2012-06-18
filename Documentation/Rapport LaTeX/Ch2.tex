@@ -127,11 +127,11 @@ L'algorithme suivant est la partie du coeur, qui applique le modèle IDM. C'est u
 Pour être plus réel, nous considérons que l'interval entre le temps d'arrivée des deux voitures contiguës doit être aléatoire. L'utilisateur peut fixer un temps moyen dans le fichier de configuration(le nom du paramètre est \textit{moyen}), et l'application va générer un temps aléatoire exponentiel de ce moyen pendant l'exécution.
 
 
-Notre méthode de génération d'un temps aléatoire unifié à partir du moyen est indiquée par l'équation suivante. L'opérateur \textit{ln} est utilisé pour que la variable générée soit plus unifiée.
+Notre méthode de génération d'un temps aléatoire unifié à partir du moyen est indiquée par l'équation suivante. L'opérateur \textit{ln} est utilisé pour que la variable générée soit plus unifiée. La variable T est la même que dans la configuration,pour assurer que la voiture suivante arrive au moins après un temps de sécurité.
 \begin{subequations}
 \begin{align}
 %\label{equ:ch2_random}
-t=(-moyen*(ln(rand()\%1001*0.001f)))\%(2*moyen)
+t=(-moyen*(ln(rand()\%1001*0.001f)))\%moyen+T
 \end{align}
 \end{subequations}
 
