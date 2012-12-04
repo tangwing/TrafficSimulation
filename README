@@ -1,0 +1,11 @@
+The Intelligent Driver Model (IDM) is a time-continuous car-following model for the simulation of freeway and urban traffic. According to this model, we have proposed an algorithm and then an application to simulate traffic on the screen.
+
+We have put 2 synchronised traffic lights on the road, and you will observe how the cars changer their speed automatically according to the distance between them and the traffic light.
+
+This application is developped with C programming language and OpenGL and all the parameters (normal speed, driver reaction time...) can be custumized using the configuration file.
+
+In "Documentation", you can find 3 articals about IDM, and also my final report (LaTex) in French.
+
+We use CodeBlocks as our IDE.
+
+Keywords: IDM, Traffic simulation, Algorithm, OpenGL
